@@ -1,0 +1,17 @@
+## 1. Introduction
+In order to better understand the relationship between seabird nesting sites and plant species and structure, we will use data that Finn collected from plots on seabird islands in the Gulf of Maine and spatial data collected by a group of COA students at seabird colonies on those same islands. Using this data we hope to visualize the relationship between nesting site choice of different seabird species and plant structure on the islands. Our analysis and visualization will live on in Finn’s senior project as he explores the question: is there a relationship between the distribution of plant species and the distribution of nesting seabirds in the Gulf of Maine?
+
+Finn collected the primary dataset for this project on four seabird islands—Shabby, Great Duck, Heron, Schoodic—during the summer of 2023. Seabird nesting data was collected in the same year on the same islands. The island_vegetation dataset is stored in an excel file.This data primarily consists of species ids associated with plot codes. Plot codes are associated with GPS points in ArcGIS. The island_birds dataset includes species nesting and a GPS point for each nest. Wriley Hodge was the primary collector of this dataset. The island_vegetation dataset includes ordinal, character, and numeric data while the island_birds dataset includes spatial data associated with character data.
+
+The Gulf of Maine is an important region for sensitive seabird populations. In the face of rapid climate change, understanding the ecology of seabird nesting sites may help us develop effective conservation strategies.  
+
+Spatial data – gps points of veg plots and nests
+Categorical – bird species, plant species
+Ordinal – plant height classes, cover classes
+
+## 2. Data
+
+
+
+## 3. Data analysis plan
+During this project, we will take on an untydied dataset collected in the field. We will tidy the data to make it useful for analysis while maintaining the integrity of the data. We will also integrate datasets in order to compare vegetation and bird data. Our primary goal is to create spatial representations of the vegetation community structure on each of these islands. We will represent species richness in bar plots separated by island and ranked by island size. Once we get access to the island_bird data set, we will overlay eider, black-backed gull, and herring gull distribution with the vegetation structure from the island_vegetation dataset. Hopefully this will give us an idea whether there is correlation between seabird nests and vegetation structure.

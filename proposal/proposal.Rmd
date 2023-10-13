@@ -25,9 +25,13 @@ Vegatation data from the seabird islands:
 ```{r vegetation file, echo = FALSE}
 island_veg <- read_csv("../data/veg_data_rough.csv")
 ```
-Seabird nesting data from the islands. We are in the process of getting this data. The people with access to it are at a conference in Florida.
+ We are in the process of getting the seabird nesting data data. We should have it once the owners of the data return from a waterbirds conference in Florida.
 
 ## 3. Ethics review
+
+This data was collected under permit from Acadia National Park. It was collected with as little disruption to the nesting colonies as possible, over short visits to the islands.
+
+The data that Finn didn't collect himself is being used with full permission from the investigators who collected it under ANP permit and an IACUC.
 
 ## 4. Data analysis plan
 During this project, we will take on an untydied dataset collected in the field. We will tidy the data to make it useful for analysis while maintaining the integrity of the data. We will also integrate datasets in order to compare vegetation and bird data. Our primary goal is to create spatial representations of the vegetation community structure on each of these islands. We will represent species richness in bar plots separated by island and ranked by island size. Once we get access to the island_bird data set, we will overlay eider, black-backed gull, and herring gull distribution with the vegetation structure from the island_veg dataset. Hopefully this will give us an idea whether there is correlation between seabird nests and vegetation structure.

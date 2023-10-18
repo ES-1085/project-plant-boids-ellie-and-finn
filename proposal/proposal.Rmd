@@ -10,6 +10,7 @@ library(broom)
 ```
 
 ## 1. Introduction
+
 In order to better understand the relationship between seabird nesting sites and plant species and structure, we will use data that Finn collected from plots on seabird islands in the Gulf of Maine and spatial data collected by a group of COA students at seabird colonies on those same islands. Primarily, our project will explore vegetation structure, species richness, and spatial distribution of vegetation on these colony islands. We also hope to visualize the relationship between nesting site choice of different seabird species and plant structure on the islands. The function of the visualizations we create will primarily be exploratory, informing further statistical analysis during Finn's senior project credits. The question our visualizations will inform: is there a relationship between the distribution of plant species and the distribution of nesting seabirds in the Gulf of Maine?
 
 Finn collected the primary dataset for this project on four seabird islands (Shabby, Great Duck, Heron, Schoodic Islands) during the summer of 2023. Seabird nesting data was collected in the same year on the same islands. The island_veg dataset is stored in an excel file.This data primarily consists of species ids associated with plot codes. Plot codes are associated with GPS points in ArcGIS. The island_bird dataset includes species nesting and a GPS point for each nest. Wriley Hodge was the primary collector of this dataset. The island_veg dataset includes ordinal, character, and numeric data while the island_bird dataset includes spatial data associated with character data.
@@ -25,6 +26,7 @@ Vegatation data from the seabird islands:
 ```{r vegetation file, echo = FALSE}
 island_veg <- read_csv("../data/veg_data_rough.csv")
 ```
+
  We are in the process of getting the seabird nesting data data. We should have it once the owners of the data return from a waterbirds conference in Florida.
 
 ## 3. Ethics review
@@ -34,6 +36,7 @@ This data was collected under permit from Acadia National Park. It was collected
 The data that Finn didn't collect himself is being used with full permission from the investigators who collected it under ANP permit and an IACUC.
 
 ## 4. Data analysis plan
+
 During this project, we will take on an untydied dataset collected in the field. We will tidy the data to make it useful for analysis while maintaining the integrity of the data. We will also integrate datasets in order to compare vegetation and bird data. Our primary goal is to create spatial representations of the vegetation community structure on each of these islands. We will represent species richness in bar plots separated by island and ranked by island size. Once we get access to the island_bird data set, we will overlay eider, black-backed gull, and herring gull distribution with the vegetation structure from the island_veg dataset. Hopefully this will give us an idea whether there is correlation between seabird nests and vegetation structure.
 
 

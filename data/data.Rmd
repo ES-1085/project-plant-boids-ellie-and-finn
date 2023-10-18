@@ -1,0 +1,35 @@
+---
+title: "Proposal data"
+author: "Ellie and Finn"
+output: github_document
+---
+
+```{r load-packages, message = FALSE}
+library(tidyverse)
+library(broom)
+```
+
+```{r}
+data.rough <- read.csv("veg_data_rough.csv")
+```
+
+## veg_data_rough
+
+```{r}
+head(data.rough
+     )
+```
+
+- `location`: qualitative character variable; the name of the island the data observation was collected on
+- `collected.by`: qualitative character variable; who was taking the observations
+- `data`: discrete numerical; date data was recorded
+- `gps`: qualitative character variable; plot code as denoted in ArcGIS/GPS unit
+- `cover`: discrete ordinal; % cover classes (entered as highest number in range)
+- `height`: discrete ordinal; height classes up to >1.5m, entered as their class code (height range information in metadata, number denotes which class. Height increases as code increases.)
+- `common`: qualitative character variable; common name for species observed.
+- `spp_code`: qualitative character variable; 6-letter species code
+- `spp`: qualitative character variable; scientific name for species observed
+- `notes`: qualitative character variable; notes from plot
+
+Each row is a species observation.
+- ...

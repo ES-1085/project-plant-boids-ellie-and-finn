@@ -5,7 +5,7 @@ Place data file(s) in this folder.
 Then, include codebooks (variables, and their descriptions) for your data file(s)
 using the following format.
 
-## name of data file
+## veg_data_rough
 
 - `variable1`: Description of variable 1
 - `variable2`: Description of variable 2

@@ -55,4 +55,10 @@ data.rough %>%
 ```
 
 
-
+```{r height-vis-rough}
+data.rough %>%
+  mutate(height_class = case_when(TRUE ~ as.factor(height))) %>%
+  ggplot(mapping = aes(x = location, fill = height_class)) +
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d()
+```

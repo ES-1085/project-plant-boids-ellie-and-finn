@@ -119,3 +119,13 @@ data.rough %>%
 ```
 
 ![](proposal_files/figure-gfm/veg-barplot-rough-1.png)<!-- -->
+
+``` r
+data.rough %>%
+  mutate(height_class = case_when(TRUE ~ as.factor(height))) %>%
+  ggplot(mapping = aes(x = location, fill = height_class)) +
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d()
+```
+
+![](proposal_files/figure-gfm/height-vis-rough-1.png)<!-- -->

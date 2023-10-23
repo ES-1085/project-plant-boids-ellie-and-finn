@@ -19,9 +19,17 @@ islands. We also hope to visualize the relationship between nesting site
 choice of different seabird species and plant structure on the islands.
 The function of the visualizations we create will primarily be
 exploratory, informing further statistical analysis during Finn’s senior
-project credits. The question our visualizations will inform: is there a
-relationship between the distribution of plant species and the
+project credits. The question our visualizations will inform is: is
+there a relationship between the distribution of plant species and the
 distribution of nesting seabirds in the Gulf of Maine?
+
+We hypothesize that bird species may be stratified by vegetation
+species, based on the habitat structure that those plants form. Either
+this trend will exist and persist across the 4 islands in the study,
+supporting a habitat selection hypothesis, or there will be no obvious
+trend in the dataset, which would support the null hypothesis: that the
+seabirds are not strongly influenced by the vegetation surrounding their
+nest.
 
 Finn collected the primary dataset for this project on four seabird
 islands (Shabby, Great Duck, Heron, Schoodic Islands) during the summer
@@ -55,10 +63,19 @@ Vegatation data from the seabird islands:
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-Seabird nesting data from the islands. We are in the process of getting
-this data. The people with access to it are at a conference in Florida.
+We are in the process of getting the seabird nesting data data. We
+should have it once the owners of the data return from a waterbirds
+conference in Florida.
 
 ## 3. Ethics review
+
+This data was collected under permit from Acadia National Park. It was
+collected with as little disruption to the nesting colonies as possible,
+over short visits to the islands.
+
+The data that Finn didn’t collect himself is being used with full
+permission from the investigators who collected it under ANP permit and
+an IACUC.
 
 ## 4. Data analysis plan
 

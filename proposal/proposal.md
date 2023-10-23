@@ -52,7 +52,8 @@ species, plant species Ordinal – plant height classes, cover classes
 
 ## 2. Data
 
-Vegatation data from the seabird islands:
+Vegatation data from the seabird islands (Schoodic Island data not
+included in the rough dataset):
 
     ## Rows: 234 Columns: 10
     ## ── Column specification ────────────────────────────────────────────────────────
@@ -64,7 +65,7 @@ Vegatation data from the seabird islands:
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
-glimpse(island_veg)
+glimpse(data.rough)
 ```
 
     ## Rows: 234
@@ -107,3 +108,14 @@ island_bird data set, we will overlay eider, black-backed gull, and
 herring gull distribution with the vegetation structure from the
 island_veg dataset. Hopefully this will give us an idea whether there is
 correlation between seabird nests and vegetation structure.
+
+``` r
+data.rough %>%
+  filter(common != "unknown") %>%
+  ggplot(mapping = aes(y = common)
+    ) +
+  geom_bar() +
+  facet_wrap(~location)
+```
+
+![](proposal_files/figure-gfm/veg-barplot-rough-1.png)<!-- -->

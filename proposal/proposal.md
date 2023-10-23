@@ -63,8 +63,25 @@ Vegatation data from the seabird islands:
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-We are in the process of getting the seabird nesting data data. We
-should have it once the owners of the data return from a waterbirds
+``` r
+glimpse(island_veg)
+```
+
+    ## Rows: 234
+    ## Columns: 10
+    ## $ location       <chr> "heron", "heron", "heron", "heron", "heron", "heron", "…
+    ## $ `collected by` <chr> "finn", "finn", "finn", "finn", "finn", "finn", "finn",…
+    ## $ date           <chr> "5/27/2023", "5/27/2023", "5/27/2023", "5/27/2023", "5/…
+    ## $ gps            <chr> "hrn3114", "hrn2936", "hrn3058", "hrn3058", "hrn3058", …
+    ## $ cover          <dbl> 1, 1, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,…
+    ## $ height         <dbl> 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…
+    ## $ common         <chr> NA, NA, "valerian", "dandelion", "stinging nettle", "st…
+    ## $ spp_code       <chr> NA, NA, "val off", "tar off", "urt dio", "fra vir", "un…
+    ## $ spp            <chr> NA, NA, "Valeriana officinalis", "taraxacum officinale"…
+    ## $ notes          <chr> "trans 4 -> HERG nest ~3m out of range", "1) HERG nest …
+
+We are in the process of getting the seabird nesting data. We should
+have it once the owners of the data return from the Waterbirds
 conference in Florida.
 
 ## 3. Ethics review
@@ -79,7 +96,7 @@ an IACUC.
 
 ## 4. Data analysis plan
 
-During this project, we will take on an untydied dataset collected in
+During this project, we will take on an untidied dataset collected in
 the field. We will tidy the data to make it useful for analysis while
 maintaining the integrity of the data. We will also integrate datasets
 in order to compare vegetation and bird data. Our primary goal is to

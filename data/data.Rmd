@@ -34,7 +34,7 @@ head(data.rough
 Each row is a species observation.
 - ...
 
-```{r}
+```{r rest of the data}
 island_veg <- read.csv("island_veg.csv")
 ```
 

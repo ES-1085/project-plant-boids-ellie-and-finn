@@ -1,1 +1,10 @@
+---
+title: "Data analysis"
+author: "Ellie and Finn"
+output: github_document
+---
+```{r load-packages, message = FALSE}
+library(tidyverse)
+library(broom)
+```
 

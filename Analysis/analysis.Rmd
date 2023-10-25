@@ -76,9 +76,13 @@ island_veg %>%
 ```{r}
 gdi_bird <- st_read("../data/gull data/gdi_nests/gdi_nests_Merge.shp")
 heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
-coei_schoodic_bird <- st_read("../data/gull data/schoodic_nests/coei_nests.shp")
-gbbg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/gbbg_nests.shp")
-herg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/herg_nests.shp")
+#coei_schoodic_bird <- st_read("../data/gull data/schoodic_nests/coei_nests.shp")
+#gbbg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/gbbg_nests.shp")
+#herg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/herg_nests.shp")
+schoodic_bird <- st_read("../data/gull data/schoodic_nests/all_nests.shp")
 shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
+```
+```{r}
+glimpse(schoodic_bird)
 ```
 

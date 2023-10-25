@@ -6,6 +6,13 @@ output: github_document
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(leaflet) ## For leaflet interactive maps
+library(sf) ## For spatial data
+library(RColorBrewer) ## For colour palettes
+library(htmltools) ## For html
+library(leafsync) ## For placing plots side by side
+library(stringr) ## For character string manipulation
+library(kableExtra) ## Table  output (in slides)
 ```
 
 ```{r vegetation file, echo = FALSE}
@@ -45,5 +52,8 @@ island_veg %>%
        y = "Proportion on height class",
        fill = "Height classes") +
   theme_minimal()
+```
+```{r}
+
 ```
 

@@ -5,6 +5,13 @@ Ellie and Finn
 ``` r
 library(tidyverse)
 library(broom)
+library(leaflet) ## For leaflet interactive maps
+library(sf) ## For spatial data
+library(RColorBrewer) ## For colour palettes
+library(htmltools) ## For html
+library(leafsync) ## For placing plots side by side
+library(stringr) ## For character string manipulation
+library(kableExtra) ## Table  output (in slides)
 ```
 
     ## Rows: 339 Columns: 10
@@ -34,7 +41,7 @@ island_veg %>%
   facet_wrap(~location, nrow = 1) +
   theme_minimal() +
   labs(title = "Species disribution by island",
-       x = "Number of individuals",
+       x = "Number of occurences",
        y = "Common names")
 ```
 
@@ -48,7 +55,8 @@ island_veg %>%
   scale_fill_viridis_d() +
   labs(title = "Height classes on each island",
        x = "Island",
-       y = "Proportion on height class") +
+       y = "Proportion on height class",
+       fill = "Height classes") +
   theme_minimal()
 ```
 

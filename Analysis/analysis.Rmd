@@ -19,6 +19,7 @@ library(kableExtra) ## Table  output (in slides)
 
 ```{r vegetation file, echo = FALSE}
 island_veg <- read_csv("../data/island_veg.csv")
+veg_attributes <- read_csv("../data/plotpointsattributes.csv")
 ```
 
 ```{r}

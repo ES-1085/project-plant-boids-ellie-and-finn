@@ -41,7 +41,8 @@ island_veg %>%
   scale_fill_viridis_d() +
   labs(title = "Height classes on each island",
        x = "Island",
-       y = "Proportion on height class") +
+       y = "Proportion on height class",
+       fill = "Height classes") +
   theme_minimal()
 ```
 

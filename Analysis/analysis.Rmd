@@ -1,7 +1,9 @@
 ---
 title: "Data analysis"
 author: "Ellie and Finn"
-output: github_document
+output:
+  html_document:
+    df_print: paged
 ---
 ```{r load-packages, message = FALSE}
 library(tidyverse)
@@ -29,17 +31,33 @@ island_veg <- island_veg %>%
 ```
 
 
-```{r veg-barplot}
+```{r veg-barplot, fig.height=7, dev='jpeg'}
 island_veg %>%
   filter(common != "unknown") %>% #filtering out all of the unknown species
   ggplot(mapping = aes(y = common)
     ) +
   geom_bar(fill = "#21918c") +
   facet_wrap(~location, nrow = 1) +
-  theme_minimal() +
+  theme(axis.text.y = element_text(vjust = 10)) +
+  theme_minimal() + 
   labs(title = "Species disribution by island",
        x = "Number of occurences",
        y = "Common names")
+
+
+# png("island_plot.png", width = 480, height = 480)
+# island_veg %>%
+#   filter(common != "unknown") %>% #filtering out all of the unknown species
+#   ggplot(mapping = aes(y = common)
+#     ) +
+#   geom_bar(fill = "#21918c") +
+#   facet_wrap(~location, nrow = 1) +
+#   theme(axis.text.y = element_text(vjust = 10)) +
+#   theme_minimal() + 
+#   labs(title = "Species disribution by island",
+#        x = "Number of occurences",
+#        y = "Common names")
+# dev.off()
 ```
 
 ```{r height-vis}
@@ -56,6 +74,11 @@ island_veg %>%
 ```
 
 ```{r}
-
+gdi_bird <- st_read("../data/gull data/gdi_nests/gdi_nests_Merge.shp")
+heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
+coei_schoodic_bird <- st_read("../data/gull data/schoodic_nests/coei_nests.shp")
+gbbg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/gbbg_nests.shp")
+herg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/herg_nests.shp")
+shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
 ```
 

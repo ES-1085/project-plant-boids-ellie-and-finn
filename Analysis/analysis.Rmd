@@ -23,10 +23,10 @@ island_veg <- island_veg %>%
 
 ```{r veg-barplot}
 island_veg %>%
-  filter(common != "unknown") %>%
+  filter(common != "unknown") %>% #filtering out all of the unknown species
   ggplot(mapping = aes(y = common)
     ) +
-  geom_bar(fill = "blue") +
+  geom_bar(fill = "#21918c") +
   facet_wrap(~location, nrow = 1) +
   theme_minimal() +
   labs(title = "Species disribution by island",
@@ -35,8 +35,8 @@ island_veg %>%
 ```
 ```{r height-vis}
 island_veg %>%
-  mutate(height_class = case_when(TRUE ~ as.factor(height))) %>%
-  ggplot(mapping = aes(x = location, fill = fct_rev(height_class))) +
+  mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
+  ggplot(mapping = aes(x = location, fill = fct_rev(height_class))) + #reversing height class so the tallest appears on top
   geom_bar(position = "fill") +
   scale_fill_viridis_d() +
   labs(title = "Height classes on each island",

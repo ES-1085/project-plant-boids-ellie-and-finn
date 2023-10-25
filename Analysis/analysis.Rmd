@@ -8,3 +8,19 @@ library(tidyverse)
 library(broom)
 ```
 
+```{r vegetation file, echo = FALSE}
+data.rough <- read_csv("../data/veg_data_rough.csv")
+```
+
+```{r veg-barplot-rough}
+data.rough %>%
+  filter(common != "unknown") %>%
+  ggplot(mapping = aes(y = common)
+    ) +
+  geom_bar(fill = "blue") +
+  facet_wrap(~location) +
+  theme_minimal() +
+  labs(title = "Species disribution by island",
+       x = "Number of individuals",
+       y = "Common names")
+```

@@ -41,6 +41,7 @@ island_veg %>%
        x = "Number of occurences",
        y = "Common names")
 ```
+
 ```{r height-vis}
 island_veg %>%
   mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
@@ -53,6 +54,7 @@ island_veg %>%
        fill = "Height classes") +
   theme_minimal()
 ```
+
 ```{r}
 
 ```

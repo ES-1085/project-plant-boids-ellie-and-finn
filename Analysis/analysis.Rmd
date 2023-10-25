@@ -9,18 +9,39 @@ library(broom)
 ```
 
 ```{r vegetation file, echo = FALSE}
-data.rough <- read_csv("../data/veg_data_rough.csv")
+island_veg <- read_csv("../data/island_veg.csv")
+```
+```{r}
+island_veg <- island_veg %>%
+  mutate(location = case_when(
+    location == "Schoodic" ~ "schoodic",
+    location == "GDI" ~ "gdi",
+    TRUE ~ location
+  ))
 ```
 
-```{r veg-barplot-rough}
-data.rough %>%
+
+```{r veg-barplot}
+island_veg %>%
   filter(common != "unknown") %>%
   ggplot(mapping = aes(y = common)
     ) +
   geom_bar(fill = "blue") +
-  facet_wrap(~location) +
+  facet_wrap(~location, nrow = 1) +
   theme_minimal() +
   labs(title = "Species disribution by island",
        x = "Number of individuals",
        y = "Common names")
 ```
+```{r height-vis}
+island_veg %>%
+  mutate(height_class = case_when(TRUE ~ as.factor(height))) %>%
+  ggplot(mapping = aes(x = location, fill = fct_rev(height_class))) +
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d() +
+  labs(title = "Height classes on each island",
+       x = "Island",
+       y = "Proportion on height class") +
+  theme_minimal()
+```
+

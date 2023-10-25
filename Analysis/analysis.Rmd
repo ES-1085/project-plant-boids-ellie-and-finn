@@ -30,7 +30,7 @@ island_veg %>%
   facet_wrap(~location, nrow = 1) +
   theme_minimal() +
   labs(title = "Species disribution by island",
-       x = "Number of individuals",
+       x = "Number of occurences",
        y = "Common names")
 ```
 ```{r height-vis}

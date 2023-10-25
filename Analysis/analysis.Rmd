@@ -11,6 +11,7 @@ library(broom)
 ```{r vegetation file, echo = FALSE}
 island_veg <- read_csv("../data/island_veg.csv")
 ```
+
 ```{r}
 island_veg <- island_veg %>%
   mutate(location = case_when(

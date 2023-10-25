@@ -1642,7 +1642,44 @@ library(kableExtra) ## Table  output (in slides)</code></pre>
 ## dbl (2): cover, height
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## Rows: 3699 Columns: 6
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): name
+## dbl (4): OID_, CID, POINT_X, POINT_Y
+## lgl (1): OID1
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>## Rows: 339
+## Columns: 10
+## $ location       &lt;chr&gt; &quot;heron&quot;, &quot;heron&quot;, &quot;heron&quot;, &quot;heron&quot;, &quot;heron&quot;, &quot;heron&quot;, &quot;…
+## $ `collected by` &lt;chr&gt; &quot;finn&quot;, &quot;finn&quot;, &quot;finn&quot;, &quot;finn&quot;, &quot;finn&quot;, &quot;finn&quot;, &quot;finn&quot;,…
+## $ date           &lt;chr&gt; &quot;5/27/2023&quot;, &quot;5/27/2023&quot;, &quot;5/27/2023&quot;, &quot;5/27/2023&quot;, &quot;5/…
+## $ gps            &lt;chr&gt; &quot;hrn3114&quot;, &quot;hrn2936&quot;, &quot;hrn3058&quot;, &quot;hrn3058&quot;, &quot;hrn3058&quot;, …
+## $ cover          &lt;dbl&gt; 1, 1, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,…
+## $ height         &lt;dbl&gt; 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…
+## $ common         &lt;chr&gt; NA, NA, &quot;valerian&quot;, &quot;dandelion&quot;, &quot;stinging nettle&quot;, &quot;st…
+## $ spp_code       &lt;chr&gt; NA, NA, &quot;val off&quot;, &quot;tar off&quot;, &quot;urt dio&quot;, &quot;fra vir&quot;, &quot;un…
+## $ spp            &lt;chr&gt; NA, NA, &quot;valeriana officinalis&quot;, &quot;taraxacum officinale&quot;…
+## $ notes          &lt;chr&gt; &quot;trans 4 -&gt; HERG nest ~3m out of range&quot;, &quot;1) HERG nest …</code></pre>
+<pre><code>## Rows: 3,699
+## Columns: 6
+## $ OID_    &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,…
+## $ CID     &lt;dbl&gt; 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19…
+## $ name    &lt;chr&gt; &quot;grspn1&quot;, &quot;grspn2&quot;, &quot;grspn3&quot;, &quot;grspn4&quot;, &quot;grspn5&quot;, &quot;grspn6&quot;, &quot;g…
+## $ POINT_X &lt;dbl&gt; -68.55830, -68.55668, -68.55724, -68.55693, -68.55558, -68.558…
+## $ POINT_Y &lt;dbl&gt; 44.04171, 44.04116, 44.04151, 44.04100, 44.04370, 44.04100, 44…
+## $ OID1    &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</code></pre>
+<pre class="r"><code>island_veg_all &lt;- island_veg %&gt;%
+                  left_join(veg_attributes, join_by(&quot;gps&quot; == &quot;name&quot;))
+head(island_veg_all)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["location"],"name":[1],"type":["chr"],"align":["left"]},{"label":["collected by"],"name":[2],"type":["chr"],"align":["left"]},{"label":["date"],"name":[3],"type":["chr"],"align":["left"]},{"label":["gps"],"name":[4],"type":["chr"],"align":["left"]},{"label":["cover"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["height"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["common"],"name":[7],"type":["chr"],"align":["left"]},{"label":["spp_code"],"name":[8],"type":["chr"],"align":["left"]},{"label":["spp"],"name":[9],"type":["chr"],"align":["left"]},{"label":["notes"],"name":[10],"type":["chr"],"align":["left"]},{"label":["OID_"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["CID"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["POINT_X"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["POINT_Y"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["OID1"],"name":[15],"type":["lgl"],"align":["right"]}],"data":[{"1":"heron","2":"finn","3":"5/27/2023","4":"hrn3114","5":"1","6":"1","7":"NA","8":"NA","9":"NA","10":"trans 4 -> HERG nest ~3m out of range","11":"3114","12":"86","13":"-68.47149","14":"44.09937","15":"NA"},{"1":"heron","2":"finn","3":"5/27/2023","4":"hrn2936","5":"1","6":"1","7":"NA","8":"NA","9":"NA","10":"1) HERG nest w/ 3 eggs just out of range, 2) HERG w/ 2 1m off, 1 w/in radius (don't want to double count)","11":"2936","12":"86","13":"-68.47158","14":"44.09920","15":"NA"},{"1":"heron","2":"finn","3":"5/27/2023","4":"hrn3058","5":"100","6":"2","7":"valerian","8":"val off","9":"valeriana officinalis","10":"NA","11":"3058","12":"86","13":"-68.47105","14":"44.10111","15":"NA"},{"1":"heron","2":"finn","3":"5/27/2023","4":"hrn3058","5":"100","6":"2","7":"dandelion","8":"tar off","9":"taraxacum officinale","10":"(drawing on datasheet of leaf margin)","11":"3058","12":"86","13":"-68.47105","14":"44.10111","15":"NA"},{"1":"heron","2":"finn","3":"5/27/2023","4":"hrn3058","5":"100","6":"2","7":"stinging nettle","8":"urt dio","9":"urtica dioica","10":"NA","11":"3058","12":"86","13":"-68.47105","14":"44.10111","15":"NA"},{"1":"heron","2":"finn","3":"5/27/2023","4":"hrn3058","5":"100","6":"2","7":"strawberry","8":"fra vir","9":"fragaria virginiana","10":"NA","11":"3058","12":"86","13":"-68.47105","14":"44.10111","15":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <pre class="r"><code>island_veg &lt;- island_veg %&gt;%
   mutate(location = case_when(
     location == &quot;Schoodic&quot; ~ &quot;schoodic&quot;,
@@ -1703,29 +1740,14 @@ library(kableExtra) ## Table  output (in slides)</code></pre>
 ## Dimension:     XY
 ## Bounding box:  xmin: 542004.1 ymin: 4882947 xmax: 542361.6 ymax: 4883435
 ## Projected CRS: NAD_1983_CORS96_UTM_Zone_19N</code></pre>
-<pre class="r"><code>coei_schoodic_bird &lt;- st_read(&quot;../data/gull data/schoodic_nests/coei_nests.shp&quot;)</code></pre>
-<pre><code>## Reading layer `coei_nests&#39; from data source 
-##   `/cloud/project/data/gull data/schoodic_nests/coei_nests.shp&#39; 
+<pre class="r"><code>#coei_schoodic_bird &lt;- st_read(&quot;../data/gull data/schoodic_nests/coei_nests.shp&quot;)
+#gbbg_schoodic_bird &lt;- st_read(&quot;../data/gull data/schoodic_nests/gbbg_nests.shp&quot;)
+#herg_schoodic_bird &lt;- st_read(&quot;../data/gull data/schoodic_nests/herg_nests.shp&quot;)
+schoodic_bird &lt;- st_read(&quot;../data/gull data/schoodic_nests/all_nests.shp&quot;)</code></pre>
+<pre><code>## Reading layer `all_nests&#39; from data source 
+##   `/cloud/project/data/gull data/schoodic_nests/all_nests.shp&#39; 
 ##   using driver `ESRI Shapefile&#39;
-## Simple feature collection with 34 features and 19 fields
-## Geometry type: POINT
-## Dimension:     XY
-## Bounding box:  xmin: 577042.1 ymin: 4909302 xmax: 577279.8 ymax: 4909678
-## Projected CRS: NAD_1983_CORS96_UTM_Zone_19N</code></pre>
-<pre class="r"><code>gbbg_schoodic_bird &lt;- st_read(&quot;../data/gull data/schoodic_nests/gbbg_nests.shp&quot;)</code></pre>
-<pre><code>## Reading layer `gbbg_nests&#39; from data source 
-##   `/cloud/project/data/gull data/schoodic_nests/gbbg_nests.shp&#39; 
-##   using driver `ESRI Shapefile&#39;
-## Simple feature collection with 70 features and 19 fields
-## Geometry type: POINT
-## Dimension:     XY
-## Bounding box:  xmin: 576929.4 ymin: 4908586 xmax: 577290.5 ymax: 4909697
-## Projected CRS: NAD_1983_CORS96_UTM_Zone_19N</code></pre>
-<pre class="r"><code>herg_schoodic_bird &lt;- st_read(&quot;../data/gull data/schoodic_nests/herg_nests.shp&quot;)</code></pre>
-<pre><code>## Reading layer `herg_nests&#39; from data source 
-##   `/cloud/project/data/gull data/schoodic_nests/herg_nests.shp&#39; 
-##   using driver `ESRI Shapefile&#39;
-## Simple feature collection with 547 features and 21 fields
+## Simple feature collection with 660 features and 19 fields
 ## Geometry type: POINT
 ## Dimension:     XY
 ## Bounding box:  xmin: 576928.8 ymin: 4908504 xmax: 577297.2 ymax: 4909699
@@ -1739,6 +1761,29 @@ library(kableExtra) ## Table  output (in slides)</code></pre>
 ## Dimension:     XY
 ## Bounding box:  xmin: 535230.8 ymin: 4890423 xmax: 535343.9 ymax: 4890547
 ## Projected CRS: NAD_1983_CORS96_UTM_Zone_19N</code></pre>
+<pre class="r"><code>glimpse(schoodic_bird)</code></pre>
+<pre><code>## Rows: 660
+## Columns: 20
+## $ all_nests_ &lt;chr&gt; &quot;106&quot;, &quot;434&quot;, &quot;481&quot;, &quot;432&quot;, &quot;16&quot;, &quot;70&quot;, &quot;449&quot;, &quot;82&quot;, &quot;57&quot;, …
+## $ all_nests1 &lt;dbl&gt; 4.9, 2.6, 3.6, 3.3, 2.4, 2.5, 2.4, 5.4, 3.2, 1.9, 2.6, 2.8,…
+## $ all_nest_1 &lt;chr&gt; &quot;L1L2  Postprocessed Carrier Float&quot;, &quot;Postprocessed Code&quot;, …
+## $ all_nest_2 &lt;chr&gt; &quot;GeoXH 6000&quot;, &quot;GeoXH 6000&quot;, &quot;GeoXH 6000&quot;, &quot;GeoXH 6000&quot;, &quot;Ge…
+## $ all_nest_3 &lt;date&gt; 2023-06-09, 2023-06-09, 2023-06-09, 2023-06-09, 2023-06-09…
+## $ all_nest_4 &lt;chr&gt; &quot;10:02:08am&quot;, &quot;10:05:57am&quot;, &quot;10:06:43am&quot;, &quot;10:07:34am&quot;, &quot;10…
+## $ all_nest_5 &lt;chr&gt; &quot;Point_generic&quot;, &quot;Point_generic&quot;, &quot;Point_generic&quot;, &quot;Point_g…
+## $ all_nest_6 &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…
+## $ all_nest_7 &lt;dbl&gt; 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,…
+## $ all_nest_8 &lt;dbl&gt; 106, 434, 481, 432, 16, 70, 449, 82, 57, 52, 51, 203, 480, …
+## $ schoodic_c &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 10, 13, 16, 14, 17, 15, 18, …
+## $ schoodic_1 &lt;dbl&gt; 106, 434, 481, 432, 16, 70, 449, 82, 57, 52, 51, 203, 480, …
+## $ schoodic_2 &lt;chr&gt; &quot;gbbg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;coei&quot;, &quot;he…
+## $ schoodic_3 &lt;dbl&gt; 3, 3, 3, 3, 2, 3, 4, 3, 3, 3, 4, 2, 1, 3, 2, 4, 3, 3, 3, 1,…
+## $ schoodic_4 &lt;chr&gt; NA, NA, NA, NA, NA, &quot;2 in nest, 1 rolled out&quot;, NA, NA, NA, …
+## $ schoodic_5 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ schoodic_6 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ schoodic_7 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ schoodic_8 &lt;dbl&gt; 0, 384, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ geometry   &lt;POINT [m]&gt; POINT (577189.3 4909671), POINT (577186.4 4909660), P…</code></pre>
 
 
 

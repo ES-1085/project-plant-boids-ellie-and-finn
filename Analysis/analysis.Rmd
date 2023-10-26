@@ -89,16 +89,90 @@ island_veg_all %>%
   theme_minimal()
 ```
 
-```{r}
-gdi_bird <- st_read("../data/gull data/gdi_nests/gdi_nests_Merge.shp")
-heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
-#coei_schoodic_bird <- st_read("../data/gull data/schoodic_nests/coei_nests.shp")
-#gbbg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/gbbg_nests.shp")
-#herg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/herg_nests.shp")
-schoodic_bird <- st_read("../data/gull data/schoodic_nests/all_nests.shp")
-shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
+
+.
+```{r standardize spp (veg)}
+island_veg_all <- island_veg_all %>% 
+  mutate(spp = case_when(
+    spp == "achillea millefolium" ~ "Achillea millefolium",
+    spp == "agrostis scabra" ~ "Agrostis scabra",
+    spp == "agrostis stolonifera" ~ "Agrostis stolonifera",
+    spp == "arctium sp" ~ "Arctium sp.",
+    spp == "calystegia sepium" ~ "Calystegia sepium",
+    spp == "carex nigra" ~ "Carex nigra",
+    spp == "cerastium arvense" ~ "Cerastium arvense",
+    spp == "cerastium fontana" ~ "Cerastium fontanum",
+    spp == "cerastium fontanum" ~ "Cerastium fontanum",
+    spp == "cirsium arvense" ~ "Cirsium arvense",
+    spp == "cirsium vulgare" ~ "Cirsium vulgare",
+    spp == "cornus canadensis" ~ "Cornus canadensis",
+    spp == "cuscuta gronovii" ~ "Cuscuta gronovii",
+    spp == "doellingeria umbellata" ~ "Doellingeria umbellata",
+    spp == "festuca rubra" ~ "Festuca rubra",
+    spp == "fragaria virginiana" ~ "Fragaria virginiana",
+    spp == "hieracium caespitosum" ~ "Hieracium caespitosum",
+    spp == "impatiens capensis" ~ "Impatiens capensis",
+    spp == "iris versicolor" ~ "Iris versicolor",
+    spp == "lathyrus japonicus" ~ "Lathyrus japonicus",
+    spp == "lathyrus palustris" ~ "Lathyrus palustris",
+    spp == "luzula multiflora" ~ "Luzula multiflora",
+    spp == "maianthemum canadense" ~ "Maianthemum canadense",
+    spp == "matricaria discoidea" ~ "Matricaria discoidea",
+    spp == "myrica gale" ~ "Myrica gale",
+    spp == "osmundastrum cinnamomeum" ~ "Osmundastrum cinnamomeum",
+    spp == "plantago major" ~ "Plantago major",
+    spp == "poa pratensis" ~ "Poa pratensis",
+    spp == "Poa spp (tufting)" ~ "Poa sp.",
+    spp == "potentilla anserina" ~ "Potentilla anserina",
+    spp == "potentilla norvegica" ~ "Potentilla norvegica",
+    spp == "potentilla simplex" ~ "Potentilla simplex",
+    spp == "ranunculus acris" ~ "Ranunculus acris",
+    spp == "rubus hispidus" ~ "Rubus hispidus",
+    spp == "rubus idaeus" ~ "Rubus idaeus",
+    spp == "rumex acetosella" ~ "Rumex acetosella",
+    spp == "rumex longifolius" ~ "Rumex longifolius",
+    spp == "rumex sp." ~ "Rumex sp.",
+    spp == "scutellaria galericulata" ~ "Scutellaria galericulata",
+    spp == "solanum dulcamara" ~ "Solanum dulcamara",
+    spp == "solidago rugosa" ~ "Solidago rugosa",
+    spp == "solidago sempervirens" ~ "Solidago sempervirens",
+    spp == "spiraea alba" ~ "Spiraea alba",
+    spp == "stellaria media" ~ "Stellaria media",
+    spp == "Strawberry" ~ "Fragaria virginiana",
+    spp == "symphotrichum novae-angliae" ~ "Symphotrichum novae-angliae",
+    spp == "taraxacum officinale" ~ "Taraxacum officinale",
+    spp == "taraxacum officionale" ~ "Taraxacum officinale",
+    spp == "trifolium repens" ~ "Trifolium repens",
+    spp == "urtica dioica" ~ "Urtica dioica",
+    spp == "vaccinium angustifolium" ~ "Vaccinium angustifolium",
+    spp == "valeriana officionalis" ~ "Valeriana officinalis",
+    spp == "Valeriana officionalis" ~ "Valeriana officinalis",
+    spp == "valeriana officinalis" ~ "Valeriana officinalis",
+    spp == "veronica arvensis" ~ "Veronica arvensis",
+    TRUE ~ spp
+  ))
+print(island_veg_all)
 ```
-```{r}
-glimpse(schoodic_bird)
+.
+```{r insert IDs (veg)}
+island_veg_all <- island_veg_all %>% 
+  mutate(spp = case_when(
+    spp == "Min lat" ~ "Moehringia lateriflora",
+    spp == "Calamagrostis #8" ~ "Poa pratensis",
+    spp == "grass #54" ~ "Poa pratensis",
+    spp == "Poa pratensis (#16)" ~ "Poa pratensis",
+    spp == "Poa pratensis #16)" ~ "Poa pratensis",
+    spp == "Poa spp #19" ~ "Alopecurus pratensis",
+    spp == "elymus #33" ~ "Elymus trachycaulus",
+    spp == "grass #74" ~ "Agrostis stolonifera",
+    spp == "Poa #3" ~ "Poa trivialis",
+    spp == "#53" ~ "Capsella bursa-pastoris",
+    spp == "Poaceae #84" ~ "Elymus repens",
+    spp == "Sedge #82" ~ "Carex silicea",
+    spp == "Dock sp #45" ~ "Rumex britannica",
+    spp == "dock sp #51" ~ "Rumex crispa",
+    spp == "Poaceae #22" ~ "Anthoxanthum odoratum",
+    TRUE ~ spp
+  ))
 ```
 

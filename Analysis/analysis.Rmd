@@ -83,24 +83,27 @@ island_veg_all %>%
 #        y = "Common names")
 # dev.off()
 ```
-
-```{r height-vis}
-island_veg_all %>%
-  mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
+```{r}
+ island_veg_all <- island_veg_all %>%
+mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
   mutate(height_class_range = case_when(
     height_class == "1" ~ "0-0.15",
     height_class == "2" ~ "0.15-0.30",
     height_class == "3" ~ "0.30-1",
     height_class == "4" ~ "1-1.5",
     height_class == "5" ~ "1.5+"
-  )) %>%
+  ))
+```
+
+```{r height-vis}
+island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
   geom_bar(position = "fill") +
   scale_fill_viridis_d() +
   labs(title = "Height classes on each island",
        x = "Island",
        y = "Proportion on height class",
-       fill = "Height classes (m)") +
+       fill = "Plant height classes (m)") +
   theme_minimal()
 ```
 
@@ -189,5 +192,17 @@ island_veg_all <- island_veg_all %>%
     spp == "Poaceae #22" ~ "Anthoxanthum odoratum",
     TRUE ~ spp
   ))
+```
+
+```{r}
+# island_veg_all %>%
+#         # select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
+#         # rename("percent cover" = "cover", "height class" = "height_class_range", "common name" = "common", "species" = "spp", "long" = "POINT_X", "lat" = "POINT_Y") %>%
+#   leaflet(data = island_veg_all) %>%
+#   addTiles() %>%
+#   setView(lng = -68,
+#           lat = 44,
+#           zoom = 10) %>%
+#   addCircleMarkers(~POINT_X, ~POINT_Y)
 ```
 

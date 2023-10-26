@@ -16,14 +16,13 @@ library(leafsync) ## For placing plots side by side
 library(stringr) ## For character string manipulation
 library(kableExtra) ## Table  output (in slides)
 ```
-
+-
 ```{r vegetation file, echo = FALSE}
 island_veg <- read_csv("../data/island_veg.csv")
 veg_attributes <- read_csv("../data/plotpointsattributes.csv")
-
 ```
-.
-```{r bird file, echo = FALSE}
+-
+```{r bird files, echo = FALSE}
 gdi_bird <- st_read("../data/gull data/gdi_nests/gdi_nests_Merge.shp")
 heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
 #coei_schoodic_bird <- st_read("../data/gull data/schoodic_nests/coei_nests.shp")
@@ -32,20 +31,17 @@ heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
 schoodic_bird <- st_read("../data/gull data/schoodic_nests/all_nests.shp")
 shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
 ```
-.
-
-.
+-
 ```{r join veg & coordinates}
 island_veg_all <- island_veg %>%
                   left_join(veg_attributes, join_by("gps" == "name"))
-head(island_veg_all)
 ```
-
+-
 ```{r examine data}
 glimpse(schoodic_bird)
 ```
-
-```{r}
+-
+```{r standardize island naming}
 island_veg_all <- island_veg_all %>%
   mutate(location = case_when(
     location == "Schoodic" ~ "schoodic",
@@ -53,59 +49,7 @@ island_veg_all <- island_veg_all %>%
     TRUE ~ location
   ))
 ```
-
-
-```{r veg-barplot, fig.height=7, dev='jpeg'}
-island_veg_all %>%
-  filter(common != "unknown") %>% #filtering out all of the unknown species
-  ggplot(mapping = aes(y = common)
-    ) +
-  geom_bar(fill = "#21918c") +
-  facet_wrap(~location, nrow = 1) +
-  theme(axis.text.y = element_text(vjust = 10)) +
-  theme_minimal() + 
-  labs(title = "Species disribution by island",
-       x = "Number of occurences",
-       y = "Common names")
-
-
-# png("island_plot.png", width = 480, height = 480)
-# island_veg %>%
-#   filter(common != "unknown") %>% #filtering out all of the unknown species
-#   ggplot(mapping = aes(y = common)
-#     ) +
-#   geom_bar(fill = "#21918c") +
-#   facet_wrap(~location, nrow = 1) +
-#   theme(axis.text.y = element_text(vjust = 10)) +
-#   theme_minimal() + 
-#   labs(title = "Species disribution by island",
-#        x = "Number of occurences",
-#        y = "Common names")
-# dev.off()
-```
-
-```{r height-vis}
-island_veg_all %>%
-  mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
-  mutate(height_class_range = case_when(
-    height_class == "1" ~ "0-0.15",
-    height_class == "2" ~ "0.15-0.30",
-    height_class == "3" ~ "0.30-1",
-    height_class == "4" ~ "1-1.5",
-    height_class == "5" ~ "1.5+"
-  )) %>%
-  ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
-  geom_bar(position = "fill") +
-  scale_fill_viridis_d() +
-  labs(title = "Height classes on each island",
-       x = "Island",
-       y = "Proportion on height class",
-       fill = "Height classes (m)") +
-  theme_minimal()
-```
-
-
-.
+-
 ```{r standardize spp (veg)}
 island_veg_all <- island_veg_all %>% 
   mutate(spp = case_when(
@@ -168,7 +112,7 @@ island_veg_all <- island_veg_all %>%
   ))
 print(island_veg_all)
 ```
-.
+-
 ```{r insert IDs (veg)}
 island_veg_all <- island_veg_all %>% 
   mutate(spp = case_when(
@@ -189,5 +133,70 @@ island_veg_all <- island_veg_all %>%
     spp == "Poaceae #22" ~ "Anthoxanthum odoratum",
     TRUE ~ spp
   ))
+```
+-
+```{r veg-barplot, fig.height=7, dev='jpeg'}
+island_veg_all %>%
+  filter(common != "unknown") %>% #filtering out all of the unknown species
+  ggplot(mapping = aes(y = common)
+    ) +
+  geom_bar(fill = "#21918c") +
+  facet_wrap(~location, nrow = 1) +
+  theme(axis.text.y = element_text(vjust = 10)) +
+  theme_minimal() + 
+  labs(title = "Species disribution by island",
+       x = "Number of occurences",
+       y = "Common names")
+
+
+# png("island_plot.png", width = 480, height = 480)
+# island_veg %>%
+#   filter(common != "unknown") %>% #filtering out all of the unknown species
+#   ggplot(mapping = aes(y = common)
+#     ) +
+#   geom_bar(fill = "#21918c") +
+#   facet_wrap(~location, nrow = 1) +
+#   theme(axis.text.y = element_text(vjust = 10)) +
+#   theme_minimal() + 
+#   labs(title = "Species disribution by island",
+#        x = "Number of occurences",
+#        y = "Common names")
+# dev.off()
+```
+-
+```{r}
+ island_veg_all <- island_veg_all %>%
+mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
+  mutate(height_class_range = case_when(
+    height_class == "1" ~ "0-0.15",
+    height_class == "2" ~ "0.15-0.30",
+    height_class == "3" ~ "0.30-1",
+    height_class == "4" ~ "1-1.5",
+    height_class == "5" ~ "1.5+"
+  ))
+```
+-
+```{r height-vis}
+island_veg_all %>%
+  ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d() +
+  labs(title = "Height classes on each island",
+       x = "Island",
+       y = "Proportion on height class",
+       fill = "Plant height classes (m)") +
+  theme_minimal()
+```
+-
+```{r leaflet}
+# island_veg_all %>%
+#         # select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
+#         # rename("percent cover" = "cover", "height class" = "height_class_range", "common name" = "common", "species" = "spp", "long" = "POINT_X", "lat" = "POINT_Y") %>%
+#   leaflet(data = island_veg_all) %>%
+#   addTiles() %>%
+#   setView(lng = -68,
+#           lat = 44,
+#           zoom = 10) %>%
+#   addCircleMarkers(~POINT_X, ~POINT_Y)
 ```
 

@@ -31,7 +31,7 @@ head(island_veg_all)
 ```
 
 ```{r}
-island_veg <- island_veg %>%
+island_veg_all <- island_veg_all %>%
   mutate(location = case_when(
     location == "Schoodic" ~ "schoodic",
     location == "GDI" ~ "gdi",
@@ -41,7 +41,7 @@ island_veg <- island_veg %>%
 
 
 ```{r veg-barplot, fig.height=7, dev='jpeg'}
-island_veg %>%
+island_veg_all %>%
   filter(common != "unknown") %>% #filtering out all of the unknown species
   ggplot(mapping = aes(y = common)
     ) +
@@ -70,15 +70,22 @@ island_veg %>%
 ```
 
 ```{r height-vis}
-island_veg %>%
+island_veg_all %>%
   mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
-  ggplot(mapping = aes(x = location, fill = fct_rev(height_class))) + #reversing height class so the tallest appears on top
+  mutate(height_class_range = case_when(
+    height_class == "1" ~ "0-0.15",
+    height_class == "2" ~ "0.15-0.30",
+    height_class == "3" ~ "0.30-1",
+    height_class == "4" ~ "1-1.5",
+    height_class == "5" ~ "1.5+"
+  )) %>%
+  ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
   geom_bar(position = "fill") +
   scale_fill_viridis_d() +
   labs(title = "Height classes on each island",
        x = "Island",
        y = "Proportion on height class",
-       fill = "Height classes") +
+       fill = "Height classes (m)") +
   theme_minimal()
 ```
 

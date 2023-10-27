@@ -1829,8 +1829,58 @@ print(island_veg_all)</code></pre>
     spp == &quot;Dock sp #45&quot; ~ &quot;Rumex britannica&quot;,
     spp == &quot;dock sp #51&quot; ~ &quot;Rumex crispa&quot;,
     spp == &quot;Poaceae #22&quot; ~ &quot;Anthoxanthum odoratum&quot;,
+    spp == &quot;Vetch #99&quot; ~ &quot;Lathyrus palustris&quot;,
     TRUE ~ spp
   ))</code></pre>
+<ul>
+<li></li>
+</ul>
+<pre class="r"><code>unique &lt;- unique(island_veg_all$spp)
+sort(unique)</code></pre>
+<pre><code>##  [1] &quot;#13&quot;                          &quot;#36&quot;                         
+##  [3] &quot;#5&quot;                           &quot;#7&quot;                          
+##  [5] &quot;Achillea millefolium&quot;         &quot;Agrostis scabra&quot;             
+##  [7] &quot;Agrostis stolonifera&quot;         &quot;Alopecurus pratensis&quot;        
+##  [9] &quot;Anthoxanthum odoratum&quot;        &quot;Arctium sp.&quot;                 
+## [11] &quot;Atriplex #35&quot;                 &quot;Calystegia sepium&quot;           
+## [13] &quot;Capsella bursa-pastoris&quot;      &quot;Carex nigra&quot;                 
+## [15] &quot;Carex silicea&quot;                &quot;Caryophalles (#77)&quot;          
+## [17] &quot;Cerastium arvense&quot;            &quot;Cerastium fontanum&quot;          
+## [19] &quot;Cirsium arvense&quot;              &quot;Cirsium vulgare&quot;             
+## [21] &quot;Cleavers (#37)&quot;               &quot;Cornus canadensis&quot;           
+## [23] &quot;Cuscuta gronovii&quot;             &quot;Doellingeria umbellata&quot;      
+## [25] &quot;Elymus repens&quot;                &quot;Elymus trachycaulus&quot;         
+## [27] &quot;Festuca rubra&quot;                &quot;Fragaria virginiana&quot;         
+## [29] &quot;Hieracium caespitosum&quot;        &quot;Impatiens capensis&quot;          
+## [31] &quot;Iris versicolor&quot;              &quot;Lamiaceae #30&quot;               
+## [33] &quot;lamiaceae #70&quot;                &quot;lamiaceae #90&quot;               
+## [35] &quot;Lamiales (#39)&quot;               &quot;Lathyrus japonicus&quot;          
+## [37] &quot;Lathyrus palustris&quot;           &quot;Luzula multiflora&quot;           
+## [39] &quot;Maianthemum canadense&quot;        &quot;Matricaria discoidea&quot;        
+## [41] &quot;Mentha canadensis&quot;            &quot;Moehringia lateriflora&quot;      
+## [43] &quot;Myrica gale&quot;                  &quot;Osmundastrum cinnamomeum&quot;    
+## [45] &quot;Plantago major&quot;               &quot;plantago maritima&quot;           
+## [47] &quot;Poa pratensis&quot;                &quot;Poa pratensis (#6)&quot;          
+## [49] &quot;Poa sp.&quot;                      &quot;Poa spp #73&quot;                 
+## [51] &quot;Poa trivialis&quot;                &quot;Potentilla anserina&quot;         
+## [53] &quot;Potentilla norvegica&quot;         &quot;Potentilla simplex&quot;          
+## [55] &quot;potentilla/geum #83&quot;          &quot;Ranunculus acris&quot;            
+## [57] &quot;Rosaceae #95&quot;                 &quot;Rubus hispidus&quot;              
+## [59] &quot;Rubus idaeus&quot;                 &quot;Rubus shrub spp. (#32)&quot;      
+## [61] &quot;Rumex acetosella&quot;             &quot;Rumex britannica&quot;            
+## [63] &quot;Rumex crispa&quot;                 &quot;Rumex longifolius&quot;           
+## [65] &quot;Rumex pallidus&quot;               &quot;Rumex sp.&quot;                   
+## [67] &quot;Scutellaria galericulata&quot;     &quot;Solanum dulcamara&quot;           
+## [69] &quot;Solidago (#100)&quot;              &quot;Solidago (#64)&quot;              
+## [71] &quot;Solidago #2&quot;                  &quot;Solidago #64&quot;                
+## [73] &quot;Solidago rugosa&quot;              &quot;Solidago sempervirens&quot;       
+## [75] &quot;Spiraea alba&quot;                 &quot;Stellaria media&quot;             
+## [77] &quot;symphyotrichum novae-angliae&quot; &quot;Taraxacum officinale&quot;        
+## [79] &quot;Thistle (#75)&quot;                &quot;Thistle sp&quot;                  
+## [81] &quot;Trifolium repens&quot;             &quot;Urtica dioica&quot;               
+## [83] &quot;Vaccinium angustifolium&quot;      &quot;Valeriana officinalis&quot;       
+## [85] &quot;Veronica #1&quot;                  &quot;Veronica arvensis&quot;           
+## [87] &quot;yell. Brassicaceae #58&quot;       &quot;young yarrow? #56&quot;</code></pre>
 <ul>
 <li></li>
 </ul>

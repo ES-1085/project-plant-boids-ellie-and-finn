@@ -131,8 +131,14 @@ island_veg_all <- island_veg_all %>%
     spp == "Dock sp #45" ~ "Rumex britannica",
     spp == "dock sp #51" ~ "Rumex crispa",
     spp == "Poaceae #22" ~ "Anthoxanthum odoratum",
+    spp == "Vetch #99" ~ "Lathyrus palustris",
     TRUE ~ spp
   ))
+```
+-
+```{r}
+unique <- unique(island_veg_all$spp)
+sort(unique)
 ```
 -
 ```{r veg-barplot, fig.height=7, dev='jpeg'}

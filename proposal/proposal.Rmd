@@ -41,6 +41,12 @@ This data was collected under permit from Acadia National Park. It was collected
 
 The data that Finn didn't collect himself is being used with full permission from the investigators who collected it under ANP permit and an IACUC.
 
+Our dataset has many limitations. Data was collected across a growing season, so we have to address what differences are due to seasonality. One of Finn's field assistants failed to record certain data on one island, so there are gaps in the dataset. Data quality was impacted by logistical constraints from working on islands. 
+
+Describing habitat for sensitive species can impact other species. If our analysis influences management practices on these islands, this may impact the plant and bird communities by favoring one species over others. This is some of the first vegetation data for some of the study islands; information we present on non-native species could influence the vegetation management on these islands. 
+
+To minimize impacts we will emphasize the limitations of the results when we present this data. It is not possible to establish a causal relationship between plant structure and nesting seabirds with this data. 
+
 ## 4. Data analysis plan
 
 During this project, we will take on an untidied dataset collected in the field. We will tidy the data to make it useful for analysis while maintaining the integrity of the data. We will also integrate datasets in order to compare vegetation and bird data. Our primary goal is to create spatial representations of the vegetation community structure on each of these islands. We will represent species richness in bar plots separated by island and ranked by island size. Once we get access to the island_bird data set, we will overlay eider, black-backed gull, and herring gull distribution with the vegetation structure from the island_veg dataset. Hopefully this will give us an idea whether there is correlation between seabird nests and vegetation structure.

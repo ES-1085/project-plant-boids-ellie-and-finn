@@ -1793,13 +1793,13 @@ schoodic_bird &lt;- st_read(&quot;../data/gull data/schoodic_nests/all_nests.shp
 ## $ schoodic_8 &lt;dbl&gt; 0, 384, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
 ## $ geometry   &lt;POINT [m]&gt; POINT (577189.3 4909671), POINT (577186.4 4909660), P…</code></pre>
 <pre class="r"><code># island_veg_all %&gt;%
-#         # select(&quot;cover&quot;, &quot;height_class_range&quot;, &quot;common&quot;, &quot;spp&quot;, &quot;POINT_X&quot;, &quot;POINT_Y&quot;) %&gt;%
-#         # rename(&quot;percent cover&quot; = &quot;cover&quot;, &quot;height class&quot; = &quot;height_class_range&quot;, &quot;common name&quot; = &quot;common&quot;, &quot;species&quot; = &quot;spp&quot;, &quot;long&quot; = &quot;POINT_X&quot;, &quot;lat&quot; = &quot;POINT_Y&quot;) %&gt;%
-#   leaflet(data = island_veg_all) %&gt;%
-#   addTiles() %&gt;%
-#   setView(lng = -68,
-#           lat = 44,
-#           zoom = 10) %&gt;%
+# #         # select(&quot;cover&quot;, &quot;height_class_range&quot;, &quot;common&quot;, &quot;spp&quot;, &quot;POINT_X&quot;, &quot;POINT_Y&quot;) %&gt;%
+# #         # rename(&quot;percent cover&quot; = &quot;cover&quot;, &quot;height class&quot; = &quot;height_class_range&quot;, &quot;common name&quot; = &quot;common&quot;, &quot;species&quot; = &quot;spp&quot;, &quot;long&quot; = &quot;POINT_X&quot;, &quot;lat&quot; = &quot;POINT_Y&quot;) %&gt;%
+# leaflet(data = island_veg_all) %&gt;%
+# addTiles() %&gt;%
+# setView(lng = -68,
+#         lat = 44,
+#         zoom = 10) %&gt;%
 #   addCircleMarkers(~POINT_X, ~POINT_Y)</code></pre>
 
 

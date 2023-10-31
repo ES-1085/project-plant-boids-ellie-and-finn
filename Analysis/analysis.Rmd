@@ -101,19 +101,32 @@ heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
 schoodic_bird <- st_read("../data/gull data/schoodic_nests/all_nests.shp")
 shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
 ```
+.
 ```{r}
 glimpse(schoodic_bird)
+```
+.
+```{r}
+island_veg_all %>%
+  ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d() +
+  labs(title = "Height classes on each island",
+       x = "Island",
+       y = "Proportion on height class",
+       fill = "Plant height classes (m)") +
+  theme_minimal()
 ```
 
 ```{r}
 # island_veg_all %>%
-#         # select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
-#         # rename("percent cover" = "cover", "height class" = "height_class_range", "common name" = "common", "species" = "spp", "long" = "POINT_X", "lat" = "POINT_Y") %>%
-#   leaflet(data = island_veg_all) %>%
-#   addTiles() %>%
-#   setView(lng = -68,
-#           lat = 44,
-#           zoom = 10) %>%
+# #         # select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
+# #         # rename("percent cover" = "cover", "height class" = "height_class_range", "common name" = "common", "species" = "spp", "long" = "POINT_X", "lat" = "POINT_Y") %>%
+# leaflet(data = island_veg_all) %>%
+# addTiles() %>%
+# setView(lng = -68,
+#         lat = 44,
+#         zoom = 10) %>%
 #   addCircleMarkers(~POINT_X, ~POINT_Y)
 ```
 

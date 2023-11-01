@@ -31,6 +31,26 @@ heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
 schoodic_bird <- st_read("../data/gull data/schoodic_nests/all_nests.shp")
 shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
 ```
+```{r, create-location-colmn-birds}
+gdi_bird$location <- c("gdi")
+heron_bird$location <- c("heron")
+shabby_bird$location <- c("shabby")
+schoodic_bird$location <- c("schoodic")
+```
+-
+```{r}
+
+gdi_bird_all <- gdi_bird %>%
+  select(-Field, -nest, -clutch, -ObjectID) %>%
+  relocate(species, .after = last_col())
+
+heron_bird_all <- heron_bird %>%
+  select(-island) %>%
+  mutate(species = "NA")
+
+island_bird <- rbind(gdi_bird_all, heron_bird_all)
+
+```
 -
 ```{r join veg & coordinates}
 island_veg_all <- island_veg %>%
@@ -47,6 +67,18 @@ island_veg_all <- island_veg_all %>%
     location == "Schoodic" ~ "schoodic",
     location == "GDI" ~ "gdi",
     TRUE ~ location
+  ))
+```
+-
+```{r, recode-veg-height-class-names}
+ island_veg_all <- island_veg_all %>%
+mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
+  mutate(height_class_range = case_when(
+    height_class == "1" ~ "0-0.15",
+    height_class == "2" ~ "0.15-0.30",
+    height_class == "3" ~ "0.30-1",
+    height_class == "4" ~ "1-1.5",
+    height_class == "5" ~ "1.5+"
   ))
 ```
 -
@@ -170,17 +202,7 @@ island_veg_all %>%
 # dev.off()
 ```
 -
-```{r}
- island_veg_all <- island_veg_all %>%
-mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
-  mutate(height_class_range = case_when(
-    height_class == "1" ~ "0-0.15",
-    height_class == "2" ~ "0.15-0.30",
-    height_class == "3" ~ "0.30-1",
-    height_class == "4" ~ "1-1.5",
-    height_class == "5" ~ "1.5+"
-  ))
-```
+
 -
 ```{r height-vis}
 island_veg_all %>%
@@ -195,53 +217,6 @@ island_veg_all %>%
 ```
 <<<<<<< HEAD
 
-```{r}
-gdi_bird <- st_read("../data/gull data/gdi_nests/gdi_nests_Merge.shp")
-heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
-#coei_schoodic_bird <- st_read("../data/gull data/schoodic_nests/coei_nests.shp")
-#gbbg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/gbbg_nests.shp")
-#herg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/herg_nests.shp")
-schoodic_bird <- st_read("../data/gull data/schoodic_nests/all_nests.shp")
-shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
-```
-.
-```{r}
-glimpse(schoodic_bird)
-```
-.
-```{r}
-gdi_bird$location <- c("gdi")
-heron_bird$location <- c("heron")
-shabby_bird$location <- c("shabby")
-schoodic_bird$location <- c("schoodic")
-```
-.
-
-```{r}
-
-gdi_bird_all <- gdi_bird %>%
-  select(-Field, -nest, -clutch, -ObjectID) %>%
-  relocate(species, .after = last_col())
-
-heron_bird_all <- heron_bird %>%
-  select(-island) %>%
-  mutate(species = "NA")
-
-island_bird <- rbind(gdi_bird_all, heron_bird_all)
-
-```
-
-```{r}
-island_veg_all %>%
-  ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
-  geom_bar(position = "fill") +
-  scale_fill_viridis_d() +
-  labs(title = "Height classes on each island",
-       x = "Island",
-       y = "Proportion on height class",
-       fill = "Plant height classes (m)") +
-  theme_minimal()
-```
 
 ```{r}
 # =======

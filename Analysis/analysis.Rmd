@@ -107,6 +107,10 @@ glimpse(schoodic_bird)
 ```
 .
 ```{r}
+gdi_bird$location <- c("gdi")
+```
+.
+```{r}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
   geom_bar(position = "fill") +
@@ -122,7 +126,7 @@ island_veg_all %>%
 # island_veg_all %>%
 # #         # select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
 # #         # rename("percent cover" = "cover", "height class" = "height_class_range", "common name" = "common", "species" = "spp", "long" = "POINT_X", "lat" = "POINT_Y") %>%
-# leaflet(data = island_veg_all) %>%
+# sf(data = island_veg_all) %>%
 # addTiles() %>%
 # setView(lng = -68,
 #         lat = 44,

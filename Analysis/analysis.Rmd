@@ -16,21 +16,32 @@ library(leafsync) ## For placing plots side by side
 library(stringr) ## For character string manipulation
 library(kableExtra) ## Table  output (in slides)
 ```
-
+-
 ```{r vegetation file, echo = FALSE}
 island_veg <- read_csv("../data/island_veg.csv")
 veg_attributes <- read_csv("../data/plotpointsattributes.csv")
-
-glimpse(island_veg)
-glimpse(veg_attributes)
 ```
-```{r join}
+-
+```{r bird files, echo = FALSE}
+gdi_bird <- st_read("../data/gull data/gdi_nests/gdi_nests_Merge.shp")
+heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
+#coei_schoodic_bird <- st_read("../data/gull data/schoodic_nests/coei_nests.shp")
+#gbbg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/gbbg_nests.shp")
+#herg_schoodic_bird <- st_read("../data/gull data/schoodic_nests/herg_nests.shp")
+schoodic_bird <- st_read("../data/gull data/schoodic_nests/all_nests.shp")
+shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
+```
+-
+```{r join veg & coordinates}
 island_veg_all <- island_veg %>%
                   left_join(veg_attributes, join_by("gps" == "name"))
-head(island_veg_all)
 ```
-
-```{r}
+-
+```{r examine data}
+glimpse(schoodic_bird)
+```
+-
+```{r standardize island naming}
 island_veg_all <- island_veg_all %>%
   mutate(location = case_when(
     location == "Schoodic" ~ "schoodic",
@@ -38,8 +49,98 @@ island_veg_all <- island_veg_all %>%
     TRUE ~ location
   ))
 ```
-
-
+-
+```{r standardize spp (veg)}
+island_veg_all <- island_veg_all %>% 
+  mutate(spp = case_when(
+    spp == "achillea millefolium" ~ "Achillea millefolium",
+    spp == "agrostis scabra" ~ "Agrostis scabra",
+    spp == "agrostis stolonifera" ~ "Agrostis stolonifera",
+    spp == "arctium sp" ~ "Arctium sp.",
+    spp == "calystegia sepium" ~ "Calystegia sepium",
+    spp == "carex nigra" ~ "Carex nigra",
+    spp == "cerastium arvense" ~ "Cerastium arvense",
+    spp == "cerastium fontana" ~ "Cerastium fontanum",
+    spp == "cerastium fontanum" ~ "Cerastium fontanum",
+    spp == "cirsium arvense" ~ "Cirsium arvense",
+    spp == "cirsium vulgare" ~ "Cirsium vulgare",
+    spp == "cornus canadensis" ~ "Cornus canadensis",
+    spp == "cuscuta gronovii" ~ "Cuscuta gronovii",
+    spp == "doellingeria umbellata" ~ "Doellingeria umbellata",
+    spp == "festuca rubra" ~ "Festuca rubra",
+    spp == "fragaria virginiana" ~ "Fragaria virginiana",
+    spp == "hieracium caespitosum" ~ "Hieracium caespitosum",
+    spp == "impatiens capensis" ~ "Impatiens capensis",
+    spp == "iris versicolor" ~ "Iris versicolor",
+    spp == "lathyrus japonicus" ~ "Lathyrus japonicus",
+    spp == "lathyrus palustris" ~ "Lathyrus palustris",
+    spp == "luzula multiflora" ~ "Luzula multiflora",
+    spp == "maianthemum canadense" ~ "Maianthemum canadense",
+    spp == "matricaria discoidea" ~ "Matricaria discoidea",
+    spp == "myrica gale" ~ "Myrica gale",
+    spp == "osmundastrum cinnamomeum" ~ "Osmundastrum cinnamomeum",
+    spp == "plantago major" ~ "Plantago major",
+    spp == "poa pratensis" ~ "Poa pratensis",
+    spp == "Poa spp (tufting)" ~ "Poa sp.",
+    spp == "potentilla anserina" ~ "Potentilla anserina",
+    spp == "potentilla norvegica" ~ "Potentilla norvegica",
+    spp == "potentilla simplex" ~ "Potentilla simplex",
+    spp == "ranunculus acris" ~ "Ranunculus acris",
+    spp == "rubus hispidus" ~ "Rubus hispidus",
+    spp == "rubus idaeus" ~ "Rubus idaeus",
+    spp == "rumex acetosella" ~ "Rumex acetosella",
+    spp == "rumex longifolius" ~ "Rumex longifolius",
+    spp == "rumex sp." ~ "Rumex sp.",
+    spp == "scutellaria galericulata" ~ "Scutellaria galericulata",
+    spp == "solanum dulcamara" ~ "Solanum dulcamara",
+    spp == "solidago rugosa" ~ "Solidago rugosa",
+    spp == "solidago sempervirens" ~ "Solidago sempervirens",
+    spp == "spiraea alba" ~ "Spiraea alba",
+    spp == "stellaria media" ~ "Stellaria media",
+    spp == "Strawberry" ~ "Fragaria virginiana",
+    spp == "symphotrichum novae-angliae" ~ "Symphotrichum novae-angliae",
+    spp == "taraxacum officinale" ~ "Taraxacum officinale",
+    spp == "taraxacum officionale" ~ "Taraxacum officinale",
+    spp == "trifolium repens" ~ "Trifolium repens",
+    spp == "urtica dioica" ~ "Urtica dioica",
+    spp == "vaccinium angustifolium" ~ "Vaccinium angustifolium",
+    spp == "valeriana officionalis" ~ "Valeriana officinalis",
+    spp == "Valeriana officionalis" ~ "Valeriana officinalis",
+    spp == "valeriana officinalis" ~ "Valeriana officinalis",
+    spp == "veronica arvensis" ~ "Veronica arvensis",
+    TRUE ~ spp
+  ))
+print(island_veg_all)
+```
+-
+```{r insert IDs (veg)}
+island_veg_all <- island_veg_all %>% 
+  mutate(spp = case_when(
+    spp == "Min lat" ~ "Moehringia lateriflora",
+    spp == "Calamagrostis #8" ~ "Poa pratensis",
+    spp == "grass #54" ~ "Poa pratensis",
+    spp == "Poa pratensis (#16)" ~ "Poa pratensis",
+    spp == "Poa pratensis #16)" ~ "Poa pratensis",
+    spp == "Poa spp #19" ~ "Alopecurus pratensis",
+    spp == "elymus #33" ~ "Elymus trachycaulus",
+    spp == "grass #74" ~ "Agrostis stolonifera",
+    spp == "Poa #3" ~ "Poa trivialis",
+    spp == "#53" ~ "Capsella bursa-pastoris",
+    spp == "Poaceae #84" ~ "Elymus repens",
+    spp == "Sedge #82" ~ "Carex silicea",
+    spp == "Dock sp #45" ~ "Rumex britannica",
+    spp == "dock sp #51" ~ "Rumex crispa",
+    spp == "Poaceae #22" ~ "Anthoxanthum odoratum",
+    spp == "Vetch #99" ~ "Lathyrus palustris",
+    TRUE ~ spp
+  ))
+```
+-
+```{r}
+unique <- unique(island_veg_all$spp)
+sort(unique)
+```
+-
 ```{r veg-barplot, fig.height=7, dev='jpeg'}
 island_veg_all %>%
   filter(common != "unknown") %>% #filtering out all of the unknown species
@@ -68,6 +169,7 @@ island_veg_all %>%
 #        y = "Common names")
 # dev.off()
 ```
+-
 ```{r}
  island_veg_all <- island_veg_all %>%
 mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
@@ -79,7 +181,7 @@ mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height cl
     height_class == "5" ~ "1.5+"
   ))
 ```
-
+-
 ```{r height-vis}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
@@ -91,6 +193,7 @@ island_veg_all %>%
        fill = "Plant height classes (m)") +
   theme_minimal()
 ```
+<<<<<<< HEAD
 
 ```{r}
 gdi_bird <- st_read("../data/gull data/gdi_nests/gdi_nests_Merge.shp")
@@ -123,6 +226,10 @@ island_veg_all %>%
 ```
 
 ```{r}
+=======
+-
+```{r leaflet}
+>>>>>>> bb7949e6f5236b825be637c85e47178b8fae9fc4
 # island_veg_all %>%
 # #         # select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
 # #         # rename("percent cover" = "cover", "height class" = "height_class_range", "common name" = "common", "species" = "spp", "long" = "POINT_X", "lat" = "POINT_Y") %>%

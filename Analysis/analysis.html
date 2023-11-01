@@ -1697,15 +1697,34 @@ schoodic_bird$location &lt;- c(&quot;schoodic&quot;)</code></pre>
 <ul>
 <li></li>
 </ul>
+<pre class="r"><code>  colnames(shabby_bird)[which(names(shabby_bird) == &quot;Point_ge_4&quot;)] &lt;- &quot;GPS_Date&quot;
+  colnames(shabby_bird)[which(names(shabby_bird) == &quot;shabby_i_2&quot;)] &lt;- &quot;species&quot;
+  colnames(shabby_bird)[which(names(shabby_bird) == &quot;Point_gene&quot;)] &lt;- &quot;Point_ID&quot;</code></pre>
+<ul>
+<li></li>
+</ul>
+<pre class="r"><code>  colnames(schoodic_bird)[which(names(schoodic_bird) == &quot;all_nest_3&quot;)] &lt;- &quot;GPS_Date&quot;
+  colnames(schoodic_bird)[which(names(schoodic_bird) == &quot;schoodic_2&quot;)] &lt;- &quot;species&quot;
+  colnames(schoodic_bird)[which(names(schoodic_bird) == &quot;schoodic_c&quot;)] &lt;- &quot;Point_ID&quot;</code></pre>
+<ul>
+<li></li>
+</ul>
 <pre class="r"><code>gdi_bird_all &lt;- gdi_bird %&gt;%
-  select(-Field, -nest, -clutch, -ObjectID) %&gt;%
-  relocate(species, .after = last_col())
-
+  select(Point_ID, GPS_Date, species, location, geometry)
+ 
 heron_bird_all &lt;- heron_bird %&gt;%
-  select(-island) %&gt;%
-  mutate(species = &quot;NA&quot;)
+  mutate(species = &quot;NA&quot;) %&gt;% #create species column for heron
+  select(Point_ID, GPS_Date, species, location, geometry)
+  
+shabby_bird_all &lt;- shabby_bird %&gt;%
+  select(Point_ID, GPS_Date, species, location, geometry)
 
-island_bird &lt;- rbind(gdi_bird_all, heron_bird_all)</code></pre>
+schoodic_bird_all &lt;- schoodic_bird %&gt;%
+  select(Point_ID, GPS_Date, species, location, geometry)</code></pre>
+<ul>
+<li></li>
+</ul>
+<pre class="r"><code>island_bird &lt;- rbind(gdi_bird_all, heron_bird_all, shabby_bird_all, schoodic_bird_all)</code></pre>
 <ul>
 <li></li>
 </ul>
@@ -1721,15 +1740,15 @@ island_bird &lt;- rbind(gdi_bird_all, heron_bird_all)</code></pre>
 ## $ all_nests1 &lt;dbl&gt; 4.9, 2.6, 3.6, 3.3, 2.4, 2.5, 2.4, 5.4, 3.2, 1.9, 2.6, 2.8,…
 ## $ all_nest_1 &lt;chr&gt; &quot;L1L2  Postprocessed Carrier Float&quot;, &quot;Postprocessed Code&quot;, …
 ## $ all_nest_2 &lt;chr&gt; &quot;GeoXH 6000&quot;, &quot;GeoXH 6000&quot;, &quot;GeoXH 6000&quot;, &quot;GeoXH 6000&quot;, &quot;Ge…
-## $ all_nest_3 &lt;date&gt; 2023-06-09, 2023-06-09, 2023-06-09, 2023-06-09, 2023-06-09…
+## $ GPS_Date   &lt;date&gt; 2023-06-09, 2023-06-09, 2023-06-09, 2023-06-09, 2023-06-09…
 ## $ all_nest_4 &lt;chr&gt; &quot;10:02:08am&quot;, &quot;10:05:57am&quot;, &quot;10:06:43am&quot;, &quot;10:07:34am&quot;, &quot;10…
 ## $ all_nest_5 &lt;chr&gt; &quot;Point_generic&quot;, &quot;Point_generic&quot;, &quot;Point_generic&quot;, &quot;Point_g…
 ## $ all_nest_6 &lt;dbl&gt; 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,…
 ## $ all_nest_7 &lt;dbl&gt; 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,…
 ## $ all_nest_8 &lt;dbl&gt; 106, 434, 481, 432, 16, 70, 449, 82, 57, 52, 51, 203, 480, …
-## $ schoodic_c &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 10, 13, 16, 14, 17, 15, 18, …
+## $ Point_ID   &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 10, 13, 16, 14, 17, 15, 18, …
 ## $ schoodic_1 &lt;dbl&gt; 106, 434, 481, 432, 16, 70, 449, 82, 57, 52, 51, 203, 480, …
-## $ schoodic_2 &lt;chr&gt; &quot;gbbg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;coei&quot;, &quot;he…
+## $ species    &lt;chr&gt; &quot;gbbg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;herg&quot;, &quot;coei&quot;, &quot;he…
 ## $ schoodic_3 &lt;dbl&gt; 3, 3, 3, 3, 2, 3, 4, 3, 3, 3, 4, 2, 1, 3, 2, 4, 3, 3, 3, 1,…
 ## $ schoodic_4 &lt;chr&gt; NA, NA, NA, NA, NA, &quot;2 in nest, 1 rolled out&quot;, NA, NA, NA, …
 ## $ schoodic_5 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…

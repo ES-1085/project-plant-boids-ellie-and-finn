@@ -38,18 +38,36 @@ shabby_bird$location <- c("shabby")
 schoodic_bird$location <- c("schoodic")
 ```
 -
-```{r}
-
+```{r, recode-shabby-column-names}
+  colnames(shabby_bird)[which(names(shabby_bird) == "Point_ge_4")] <- "GPS_Date"
+  colnames(shabby_bird)[which(names(shabby_bird) == "shabby_i_2")] <- "species"
+  colnames(shabby_bird)[which(names(shabby_bird) == "Point_gene")] <- "Point_ID"
+```
+-
+```{r, recode-schoodic-column-names}
+  colnames(schoodic_bird)[which(names(schoodic_bird) == "all_nest_3")] <- "GPS_Date"
+  colnames(schoodic_bird)[which(names(schoodic_bird) == "schoodic_2")] <- "species"
+  colnames(schoodic_bird)[which(names(schoodic_bird) == "schoodic_c")] <- "Point_ID"
+```
+-
+```{r, select-relevant-columns-in-bird-data}
 gdi_bird_all <- gdi_bird %>%
-  select(-Field, -nest, -clutch, -ObjectID) %>%
-  relocate(species, .after = last_col())
-
+  select(Point_ID, GPS_Date, species, location, geometry)
+ 
 heron_bird_all <- heron_bird %>%
-  select(-island) %>%
-  mutate(species = "NA")
+  mutate(species = "NA") %>% #create species column for heron
+  select(Point_ID, GPS_Date, species, location, geometry)
+  
+shabby_bird_all <- shabby_bird %>%
+  select(Point_ID, GPS_Date, species, location, geometry)
 
-island_bird <- rbind(gdi_bird_all, heron_bird_all)
+schoodic_bird_all <- schoodic_bird %>%
+  select(Point_ID, GPS_Date, species, location, geometry)
+```
 
+-
+```{r, combine-bird-datasets-for-all-islands}
+island_bird <- rbind(gdi_bird_all, heron_bird_all, shabby_bird_all, schoodic_bird_all)
 ```
 -
 ```{r join veg & coordinates}

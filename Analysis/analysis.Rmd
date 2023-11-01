@@ -16,13 +16,14 @@ library(leafsync) ## For placing plots side by side
 library(stringr) ## For character string manipulation
 library(kableExtra) ## Table  output (in slides)
 ```
--
-```{r vegetation file, echo = FALSE}
+
+Read in data files
+```{r, read-in-vegetation-file, echo = FALSE}
 island_veg <- read_csv("../data/island_veg.csv")
 veg_attributes <- read_csv("../data/plotpointsattributes.csv")
 ```
 -
-```{r bird files, echo = FALSE}
+```{r, read-in-bird-files, echo = FALSE}
 gdi_bird <- st_read("../data/gull data/gdi_nests/gdi_nests_Merge.shp")
 heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
 #coei_schoodic_bird <- st_read("../data/gull data/schoodic_nests/coei_nests.shp")
@@ -31,6 +32,7 @@ heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
 schoodic_bird <- st_read("../data/gull data/schoodic_nests/all_nests.shp")
 shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
 ```
+Tidy bird data
 ```{r, create-location-colmn-birds}
 gdi_bird$location <- c("gdi")
 heron_bird$location <- c("heron")
@@ -64,22 +66,33 @@ shabby_bird_all <- shabby_bird %>%
 schoodic_bird_all <- schoodic_bird %>%
   select(Point_ID, GPS_Date, species, location, geometry)
 ```
-
 -
 ```{r, combine-bird-datasets-for-all-islands}
 island_bird <- rbind(gdi_bird_all, heron_bird_all, shabby_bird_all, schoodic_bird_all)
 ```
 -
+
+```{r, rename-bird-species-with-full-names}
+island_bird <- island_bird %>%
+  mutate(species = case_when(
+    species == "gbbg" ~ "great black-backed gull",
+    species == "herg" ~ "herring gull",
+    species == "coei" ~ "common eider",
+    species == "dcco" ~ "double-crested cormorant",
+    species == "cago" ~ "FILL",
+    TRUE ~ species
+  )) %>% 
+  filter(!is.na(species)) %>% 
+  filter(species != "NA")
+```
+
+Tidy vegetation data
 ```{r join veg & coordinates}
 island_veg_all <- island_veg %>%
                   left_join(veg_attributes, join_by("gps" == "name"))
 ```
 -
-```{r examine data}
-glimpse(schoodic_bird)
-```
--
-```{r standardize island naming}
+```{r standardize-island-naming}
 island_veg_all <- island_veg_all %>%
   mutate(location = case_when(
     location == "Schoodic" ~ "schoodic",
@@ -186,12 +199,40 @@ island_veg_all <- island_veg_all %>%
   ))
 ```
 -
-```{r}
+```{r, find-unique-species-veg}
 unique <- unique(island_veg_all$spp)
 sort(unique)
 ```
+
+Vislualize bird data
+```{r, bird-species-bar-plot-by-island}
+island_bird %>%
+  ggplot(mapping = aes(y = species),
+    na.rm = TRUE) +
+  geom_bar(fill = "#21918c") +
+  facet_wrap(~location, nrow = 1) +
+  theme(axis.text.y = element_text(vjust = 10)) +
+  theme_minimal() + 
+  labs(title = "Seabird disribution by island",
+       x = "Number of occurences",
+       y = "Bird species")
+```
 -
-```{r veg-barplot, fig.height=7, dev='jpeg'}
+```{r}
+island_bird %>%
+  ggplot(mapping = aes(x = location, fill = (species))) + 
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d() +
+  labs(title = "Bird species on each island",
+       x = "Island",
+       y = "Proportion of species",
+       fill = "Bird species") +
+  theme_minimal()
+```
+
+
+Visualize vegetation data
+```{r species-barplot-by-island, fig.height=7, dev='jpeg'}
 island_veg_all %>%
   filter(common != "unknown") %>% #filtering out all of the unknown species
   ggplot(mapping = aes(y = common)
@@ -200,7 +241,7 @@ island_veg_all %>%
   facet_wrap(~location, nrow = 1) +
   theme(axis.text.y = element_text(vjust = 10)) +
   theme_minimal() + 
-  labs(title = "Species disribution by island",
+  labs(title = "Vegetation disribution by island",
        x = "Number of occurences",
        y = "Common names")
 
@@ -220,9 +261,7 @@ island_veg_all %>%
 # dev.off()
 ```
 -
-
--
-```{r height-vis}
+```{r height-class-distribution-by-island-bar-plot}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
   geom_bar(position = "fill") +

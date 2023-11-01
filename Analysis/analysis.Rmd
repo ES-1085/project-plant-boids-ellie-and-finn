@@ -211,8 +211,26 @@ glimpse(schoodic_bird)
 .
 ```{r}
 gdi_bird$location <- c("gdi")
+heron_bird$location <- c("heron")
+shabby_bird$location <- c("shabby")
+schoodic_bird$location <- c("schoodic")
 ```
 .
+
+```{r}
+
+gdi_bird_all <- gdi_bird %>%
+  select(-Field, -nest, -clutch, -ObjectID) %>%
+  relocate(species, .after = last_col())
+
+heron_bird_all <- heron_bird %>%
+  select(-island) %>%
+  mutate(species = "NA")
+
+island_bird <- rbind(gdi_bird_all, heron_bird_all)
+
+```
+
 ```{r}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
@@ -226,10 +244,10 @@ island_veg_all %>%
 ```
 
 ```{r}
-=======
--
-```{r leaflet}
->>>>>>> bb7949e6f5236b825be637c85e47178b8fae9fc4
+# =======
+# -
+# ```{r leaflet}
+# >>>>>>> bb7949e6f5236b825be637c85e47178b8fae9fc4
 # island_veg_all %>%
 # #         # select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
 # #         # rename("percent cover" = "cover", "height class" = "height_class_range", "common name" = "common", "species" = "spp", "long" = "POINT_X", "lat" = "POINT_Y") %>%

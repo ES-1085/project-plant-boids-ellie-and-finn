@@ -1765,6 +1765,18 @@ mutate(height_class = case_when(TRUE ~ as.factor(height))) %&gt;% #making height
 <ul>
 <li></li>
 </ul>
+<pre class="r"><code>island_veg_all &lt;- island_veg_all %&gt;%
+  mutate(percent_cover_range = case_when(
+    cover == &quot;1&quot; ~ &quot;0-0.01&quot;,
+    cover == &quot;5&quot; ~ &quot;0.02-0.05&quot;,
+    cover == &quot;25&quot; ~ &quot;0.06-0.25&quot;,
+    cover == &quot;50&quot; ~ &quot;0.26-0.50&quot;,
+    cover == &quot;75&quot; ~ &quot;0.51-0.75&quot;,
+    cover == &quot;100&quot; ~ &quot;0.76-1.00&quot;
+  ))</code></pre>
+<ul>
+<li></li>
+</ul>
 <pre class="r"><code>island_veg_all &lt;- island_veg_all %&gt;% 
   mutate(spp = case_when(
     spp == &quot;achillea millefolium&quot; ~ &quot;Achillea millefolium&quot;,
@@ -1825,7 +1837,7 @@ mutate(height_class = case_when(TRUE ~ as.factor(height))) %&gt;% #making height
     TRUE ~ spp
   ))
 print(island_veg_all)</code></pre>
-<pre><code>## # A tibble: 339 × 17
+<pre><code>## # A tibble: 339 × 18
 ##    location `collected by` date   gps   cover height common spp_code spp   notes
 ##    &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;
 ##  1 heron    finn           5/27/… hrn3…     1      1 &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;  tran…
@@ -1839,8 +1851,9 @@ print(island_veg_all)</code></pre>
 ##  9 heron    finn           5/27/… hrn3…   100      2 unkno… unk      Soli… &lt;NA&gt; 
 ## 10 heron    finn           5/27/… hrn3…   100      2 bitte… sol dul  Sola… &lt;NA&gt; 
 ## # ℹ 329 more rows
-## # ℹ 7 more variables: OID_ &lt;dbl&gt;, CID &lt;dbl&gt;, POINT_X &lt;dbl&gt;, POINT_Y &lt;dbl&gt;,
-## #   OID1 &lt;lgl&gt;, height_class &lt;fct&gt;, height_class_range &lt;chr&gt;</code></pre>
+## # ℹ 8 more variables: OID_ &lt;dbl&gt;, CID &lt;dbl&gt;, POINT_X &lt;dbl&gt;, POINT_Y &lt;dbl&gt;,
+## #   OID1 &lt;lgl&gt;, height_class &lt;fct&gt;, height_class_range &lt;chr&gt;,
+## #   percent_cover_range &lt;chr&gt;</code></pre>
 <ul>
 <li></li>
 </ul>

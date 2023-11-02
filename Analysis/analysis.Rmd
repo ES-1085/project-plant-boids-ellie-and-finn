@@ -113,6 +113,19 @@ mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height cl
   ))
 ```
 -
+```{r, recode-veg-cover-names}
+island_veg_all <- island_veg_all %>%
+  mutate(percent_cover_range = case_when(
+    cover == "1" ~ "0-0.01",
+    cover == "5" ~ "0.02-0.05",
+    cover == "25" ~ "0.06-0.25",
+    cover == "50" ~ "0.26-0.50",
+    cover == "75" ~ "0.51-0.75",
+    cover == "100" ~ "0.76-1.00"
+  ))
+```
+
+-
 ```{r standardize spp (veg)}
 island_veg_all <- island_veg_all %>% 
   mutate(spp = case_when(

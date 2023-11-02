@@ -79,7 +79,7 @@ island_bird <- island_bird %>%
     species == "herg" ~ "herring gull",
     species == "coei" ~ "common eider",
     species == "dcco" ~ "double-crested cormorant",
-    species == "cago" ~ "FILL",
+    species == "cago" ~ "canada goose",
     TRUE ~ species
   )) %>% 
   filter(!is.na(species)) %>% 
@@ -206,6 +206,7 @@ sort(unique)
 
 Vislualize bird data
 ```{r, bird-species-bar-plot-by-island}
+#I'm trying to figure out how to display totals on the ends of the bars so you can see numbers that don't show up in the bars. 
 island_bird %>%
   ggplot(mapping = aes(y = species),
     na.rm = TRUE) +
@@ -219,6 +220,7 @@ island_bird %>%
 ```
 -
 ```{r}
+#There is no species data for Heron Island
 island_bird %>%
   ggplot(mapping = aes(x = location, fill = (species))) + 
   geom_bar(position = "fill") +

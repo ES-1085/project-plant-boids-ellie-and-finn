@@ -57,7 +57,7 @@ gdi_bird_all <- gdi_bird %>%
   select(Point_ID, GPS_Date, species, location, geometry)
  
 heron_bird_all <- heron_bird %>%
-  mutate(species = "NA") %>% #create species column for heron
+  mutate(species = "herring gull") %>% #create species column for heron
   select(Point_ID, GPS_Date, species, location, geometry)
   
 shabby_bird_all <- shabby_bird %>%
@@ -219,8 +219,7 @@ island_bird %>%
        y = "Bird species")
 ```
 -
-```{r}
-#There is no species data for Heron Island
+```{r, species-percentage-by-island}
 island_bird %>%
   ggplot(mapping = aes(x = location, fill = (species))) + 
   geom_bar(position = "fill") +
@@ -234,18 +233,18 @@ island_bird %>%
 
 
 Visualize vegetation data
-```{r species-barplot-by-island, fig.height=7, dev='jpeg'}
+```{r species-barplot-by-island, fig.height=10, dev='jpeg'}
 island_veg_all %>%
-  filter(common != "unknown") %>% #filtering out all of the unknown species
-  ggplot(mapping = aes(y = common)
+  filter(spp != "unknown") %>% #filtering out all of the unknown species
+  ggplot(mapping = aes(y = spp)
     ) +
   geom_bar(fill = "#21918c") +
   facet_wrap(~location, nrow = 1) +
   theme(axis.text.y = element_text(vjust = 10)) +
   theme_minimal() + 
-  labs(title = "Vegetation disribution by island",
+  labs(title = "Vegetation frequency by island",
        x = "Number of occurences",
-       y = "Common names")
+       y = "Scientific names")
 
 
 # png("island_plot.png", width = 480, height = 480)

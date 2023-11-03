@@ -93,7 +93,13 @@ island_bird <- island_bird %>%
   filter(!is.na(species)) %>% 
   filter(species != "NA")
 ```
+-
+```{r, visualize-missing-bird-data}
+island_bird_dataframe <- as.data.frame(island_bird)
+visdat::vis_dat(island_bird_dataframe)
+```
 
+-
 Tidy vegetation data
 ```{r join veg & coordinates}
 island_veg_all <- island_veg %>%
@@ -287,7 +293,20 @@ print(island_veg_all)
 unique <- unique(island_veg_all$spp)
 sort(unique)
 ```
+-
+```{r, visualize-missing-veg-data}
+visdat::vis_dat(island_veg_all)
+```
+-
+```{r, visualize-percent-missing-veg-data}
+visdat::vis_miss(island_veg_all)
+```
+-
+```{r, visualize-missing-variables-veg-data}
+naniar::gg_miss_var(island_veg_all)
+```
 
+-
 Visualize bird data
 ```{r, bird-species-bar-plot-by-island}
 #I'm trying to figure out how to display totals on the ends of the bars so you can see numbers that don't show up in the bars. 

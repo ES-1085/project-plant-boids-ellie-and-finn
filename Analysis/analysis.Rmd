@@ -15,6 +15,10 @@ library(htmltools) ## For html
 library(leafsync) ## For placing plots side by side
 library(stringr) ## For character string manipulation
 library(kableExtra) ## Table  output (in slides)
+#install.packages("visdat")
+library(visdat)
+# install.packages("naniar")
+library(naniar)
 ```
 
 Read in data files
@@ -124,7 +128,6 @@ island_veg_all <- island_veg_all %>%
     cover == "100" ~ "0.76-1.00"
   ))
 ```
-
 -
 ```{r standardize spp (veg)}
 island_veg_all <- island_veg_all %>% 
@@ -243,7 +246,6 @@ island_bird %>%
        fill = "Bird species") +
   theme_minimal()
 ```
-
 
 Visualize vegetation data
 ```{r species-barplot-by-island, fig.height=10, dev='jpeg'}

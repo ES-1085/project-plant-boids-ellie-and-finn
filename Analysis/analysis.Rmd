@@ -16,7 +16,8 @@ library(leafsync) ## For placing plots side by side
 library(stringr) ## For character string manipulation
 library(kableExtra) ## Table  output (in slides)
 ```
--
+
+LOAD FILES
 ```{r vegetation file, echo = FALSE}
 island_veg <- read_csv("../data/island_veg.csv")
 veg_attributes <- read_csv("../data/plotpointsattributes.csv")
@@ -31,6 +32,8 @@ heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
 schoodic_bird <- st_read("../data/gull data/schoodic_nests/all_nests.shp")
 shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
 ```
+-
+TIDYING
 ```{r, create-location-colmn-birds}
 gdi_bird$location <- c("gdi")
 heron_bird$location <- c("heron")
@@ -39,7 +42,6 @@ schoodic_bird$location <- c("schoodic")
 ```
 -
 ```{r}
-
 gdi_bird_all <- gdi_bird %>%
   select(-Field, -nest, -clutch, -ObjectID) %>%
   relocate(species, .after = last_col())
@@ -168,11 +170,75 @@ island_veg_all <- island_veg_all %>%
   ))
 ```
 -
+```{r create-veg-types}
+island_veg_all$type <- "NA"
+```
+-
+```{r assign-veg-types}
+island_veg_all %>%
+   mutate(type = case_when(
+    spp == "Achillea millefolium" ~ "herb",
+    spp == "Agrostis scabra" ~ "gram",
+    spp == "Agrostis stolonifera" ~ "gram",
+    spp == "Arctium sp." ~ "herb",
+    spp == "Calystegia sepium" ~ "vine",
+    spp == "Carex nigra" ~ "gram",
+    spp == "Cerastium arvense" ~ "herb",
+    spp == "Cerastium fontanum" ~ "herb",
+    spp == "Cerastium fontanum" ~ "herb",
+    spp == "Cirsium arvense" ~ "herb",
+    spp == "Cirsium vulgare" ~ "herb",
+    spp == "Cornus canadensis" ~ "herb",
+    spp == "Cuscuta gronovii" ~ "vine",
+    spp == "Doellingeria umbellata" ~ "herb",
+    spp == "Festuca rubra" ~ "gram",
+    spp == "Fragaria virginiana" ~ "herb",
+    spp == "Hieracium caespitosum" ~ "herb",
+    spp == "Impatiens capensis" ~ "herb",
+    spp == "Iris versicolor" ~ "herb",
+    spp == "Lathyrus japonicus" ~ "vine",
+    spp == "Lathyrus palustris" ~ "vine",
+    spp == "Luzula multiflora" ~ "gram",
+    spp == "Maianthemum canadense" ~ "herb",
+    spp == "Matricaria discoidea" ~ "herb",
+    spp == "Myrica gale" ~ "shrub",
+    spp == "Osmundastrum cinnamomeum" ~ "herb",
+    spp == "Plantago major" ~ "herb",
+    spp == "Poa pratensis" ~ "gram",
+    spp == "Poa sp." ~ "gram",
+    spp == "Potentilla anserina" ~ "herb",
+    spp == "Potentilla norvegica" ~ "herb",
+    spp == "Potentilla simplex" ~ "herb",
+    spp == "Ranunculus acris" ~ "herb",
+    spp == "Rubus hispidus" ~ "vine",
+    spp == "Rubus idaeus" ~ "shrub",
+    spp == "Rumex acetosella" ~ "herb",
+    spp == "Rumex longifolius" ~ "herb",
+    spp == "Rumex sp." ~ "herb",
+    spp == "Scutellaria galericulata" ~ "herb",
+    spp == "Solanum dulcamara" ~ "vine",
+    spp == "Solidago rugosa" ~ "herb",
+    spp == "Solidago sempervirens" ~ "herb",
+    spp == "Spiraea alba" ~ "shrub",
+    spp == "Stellaria media" ~ "herb",
+    spp == "Symphotrichum novae-angliae" ~ "herb",
+    spp == "Taraxacum officinale" ~ "herb",
+    spp == "Trifolium repens" ~ "herb",
+    spp == "Urtica dioica" ~ "herb",
+    spp == "Vaccinium angustifolium" ~ "shrub",
+    spp == "Valeriana officinalis" ~ "herb",
+    spp == "Veronica arvensis" ~ "herb",
+    TRUE ~ type
+  ))
+print(island_veg_all)
+```
+
+-
 ```{r}
 unique <- unique(island_veg_all$spp)
 sort(unique)
 ```
--
+
 ```{r veg-barplot, fig.height=7, dev='jpeg'}
 island_veg_all %>%
   filter(common != "unknown") %>% #filtering out all of the unknown species
@@ -203,7 +269,6 @@ island_veg_all %>%
 ```
 -
 
--
 ```{r height-vis}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
@@ -215,7 +280,18 @@ island_veg_all %>%
        fill = "Plant height classes (m)") +
   theme_minimal()
 ```
-<<<<<<< HEAD
+
+```{r}
+island_veg_all %>%
+  ggplot(mapping = aes(x = location, fill = type)) +
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d() +
+  labs(title = "Veg types on each island",
+       x = "Island",
+       y = "Proportion on height class",
+       fill = "Plant types") +
+  theme_minimal()
+```
 
 
 ```{r}

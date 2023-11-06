@@ -305,7 +305,50 @@ visdat::vis_miss(island_veg_all)
 ```{r, visualize-missing-variables-veg-data}
 naniar::gg_miss_var(island_veg_all)
 ```
-
+-
+```{r, assign-colors-to-percent-cover}
+cover_color <- c("0-0.01" = "#dadaeb", "0.06-0.25" = "#bcbddc", "0.26-0.50" = "#9e9ac8", "0.51-0.75" = "#756bb1", "0.76-1.00" = "#54278f")
+```
+-
+```{r, ggplot-map-percent-cover-on-heron}
+island_veg_all %>%
+  filter(location == "heron") %>%
+  ggplot() +
+  geom_point(aes(POINT_X, POINT_Y, color = percent_cover_range)) +
+  scale_color_manual(values = cover_color) +
+  scale_y_continuous(labels = ~ paste0(.x, "°N")) +
+  scale_x_continuous(labels = ~ paste0(.x, "°W")) +
+  labs(title = "Percent cover on Heron Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Percent cover")
+```
+```{r, ggplot-map-percent-cover-on-schoodic}
+island_veg_all %>%
+  filter(location == "schoodic") %>%
+  ggplot() +
+  geom_point(aes(POINT_X, POINT_Y, color = percent_cover_range)) +
+  scale_color_manual(values = cover_color) +
+  scale_y_continuous(labels = ~ paste0(.x, "°N")) +
+  scale_x_continuous(labels = ~ paste0(.x, "°W")) +
+  labs(title = "Percent cover on Schoodic Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Percent cover")
+```
+```{r, ggplot-map-percent-cover-on-shabby}
+island_veg_all %>%
+  filter(location == "shabby") %>%
+  ggplot() +
+  geom_point(aes(POINT_X, POINT_Y, color = percent_cover_range)) +
+  scale_color_manual(values = cover_color) +
+  scale_y_continuous(labels = ~ paste0(.x, "°N")) +
+  scale_x_continuous(labels = ~ paste0(.x, "°W")) +
+  labs(title = "Percent cover on Shabby Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Percent cover")
+```
 -
 Visualize bird data
 ```{r, bird-species-bar-plot-by-island}
@@ -334,12 +377,11 @@ island_bird %>%
   theme_minimal()
 ```
 -
-```{r}
+```{r, assign-colors-to-bird-species}
 colors <- c("herring gull" = "#21918c", "great black-backed gull" = "#440154", "common eider" = "#fde725", "canada goose" = "#5ec962", "double-crested cormorant" = "#3b528b")
 ```
-
 -
-```{r, ggplot-map-of-nests-on-gdi, fig.width=20}
+```{r, ggplot-map-of-nests-on-gdi, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "gdi") %>%
 ggplot() +
@@ -351,7 +393,7 @@ ggplot() +
        color = "Species")
 ```
 -
-```{r, ggplot-map-of-nests-on-heron, fig.width=20}
+```{r, ggplot-map-of-nests-on-heron, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "heron") %>%
 ggplot() +
@@ -363,7 +405,7 @@ ggplot() +
        color = "Species")
 ```
 -
-```{r, ggplot-map-of-nests-on-schoodic, fig.width=20}
+```{r, ggplot-map-of-nests-on-schoodic, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "schoodic") %>%
 ggplot() +
@@ -375,7 +417,7 @@ ggplot() +
        color = "Species")
 ```
 -
-```{r, ggplot-map-of-nests-on-shabby, fig.width=20}
+```{r, ggplot-map-of-nests-on-shabby, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "shabby") %>%
 ggplot() +
@@ -388,7 +430,7 @@ ggplot() +
 ```
 
 Visualize vegetation data
-```{r species-barplot-by-island, fig.height=10, dev='jpeg'}
+```{r, species-barplot-by-island, fig.height=10, dev='jpeg'}
 island_veg_all %>%
   filter(spp != "unknown") %>% #filtering out all of the unknown species
   ggplot(mapping = aes(y = spp)
@@ -417,7 +459,7 @@ island_veg_all %>%
 # dev.off()
 ```
 -
-```{r height-class-distribution-by-island-bar-plot}
+```{r, height-class-distribution-by-island-bar-plot}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
   geom_bar(position = "fill") +
@@ -429,7 +471,7 @@ island_veg_all %>%
   theme_minimal()
 ```
 -
-```{r}
+```{r, not-working-yet-veg-types-by-island}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = type)) +
   geom_bar(position = "fill") +
@@ -440,7 +482,7 @@ island_veg_all %>%
        fill = "Plant types") +
   theme_minimal()
 ```
-
+-
 Compare birds and vegetation
 
 

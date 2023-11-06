@@ -333,6 +333,59 @@ island_bird %>%
        fill = "Bird species") +
   theme_minimal()
 ```
+-
+```{r}
+colors <- c("herring gull" = "#21918c", "great black-backed gull" = "#440154", "common eider" = "#fde725", "canada goose" = "#5ec962", "double-crested cormorant" = "#3b528b")
+```
+
+-
+```{r, ggplot-map-of-nests-on-gdi, fig.width=20}
+island_bird %>%
+filter(location == "gdi") %>%
+ggplot() +
+  geom_sf(aes(color = species)) +
+  scale_color_manual(values = colors)
+  labs(title = "Seabird nests on Great Duck Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Species")
+```
+-
+```{r, ggplot-map-of-nests-on-heron, fig.width=20}
+island_bird %>%
+filter(location == "heron") %>%
+ggplot() +
+  geom_sf(aes(color = species)) +
+  scale_color_manual(values = colors)
+  labs(title = "Seabird nests on Heron Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Species")
+```
+-
+```{r, ggplot-map-of-nests-on-schoodic, fig.width=20}
+island_bird %>%
+filter(location == "schoodic") %>%
+ggplot() +
+  geom_sf(aes(color = species)) +
+  scale_color_manual(values = colors)
+  labs(title = "Seabird nests on Schoodic Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Species")
+```
+-
+```{r, ggplot-map-of-nests-on-shabby, fig.width=20}
+island_bird %>%
+filter(location == "shabby") %>%
+ggplot() +
+  geom_sf(aes(color = species)) +
+  scale_color_manual(values = colors)
+  labs(title = "Seabird nests on Shabby Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Species")
+```
 
 Visualize vegetation data
 ```{r species-barplot-by-island, fig.height=10, dev='jpeg'}
@@ -375,7 +428,7 @@ island_veg_all %>%
        fill = "Plant height classes (m)") +
   theme_minimal()
 ```
-
+-
 ```{r}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = type)) +
@@ -388,7 +441,10 @@ island_veg_all %>%
   theme_minimal()
 ```
 
+Compare birds and vegetation
 
+
+-
 ```{r}
 # =======
 # -

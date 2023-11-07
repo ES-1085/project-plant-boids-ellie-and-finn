@@ -271,6 +271,7 @@ island_veg_all <- island_veg_all %>%
     spp == "Rumex acetosella" ~ "herb",
     spp == "Rumex longifolius" ~ "herb",
     spp == "Rumex sp." ~ "herb",
+    spp == "Rubus shrub spp. (#32)" ~ "shrub",
     spp == "Scutellaria galericulata" ~ "herb",
     spp == "Solanum dulcamara" ~ "vine",
     spp == "Solidago rugosa" ~ "herb",

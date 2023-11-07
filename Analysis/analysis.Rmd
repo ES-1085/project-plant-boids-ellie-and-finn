@@ -80,7 +80,6 @@ schoodic_bird_all <- schoodic_bird %>%
 island_bird <- rbind(gdi_bird_all, heron_bird_all, shabby_bird_all, schoodic_bird_all)
 ```
 -
-
 ```{r, rename-bird-species-with-full-names}
 island_bird <- island_bird %>%
   mutate(species = case_when(
@@ -94,6 +93,12 @@ island_bird <- island_bird %>%
   filter(!is.na(species)) %>% 
   filter(species != "NA")
 ```
+-
+```{r, visualize-missing-bird-data}
+island_bird_dataframe <- as.data.frame(island_bird)
+visdat::vis_dat(island_bird_dataframe)
+```
+-
 
 Tidy vegetation data
 ```{r join veg & coordinates}
@@ -283,13 +288,32 @@ island_veg_all %>%
   ))
 print(island_veg_all)
 ```
-
 -
 ```{r, find-unique-species-veg}
 unique <- unique(island_veg_all$spp)
 sort(unique)
 ```
+-
+```{r, visualize-missing-veg-data}
+visdat::vis_dat(island_veg_all)
+```
+-
+```{r, visualize-percent-missing-veg-data}
+visdat::vis_miss(island_veg_all)
+```
+-
+```{r, visualize-missing-variables-veg-data}
+naniar::gg_miss_var(island_veg_all)
+```
+-
+```{r, create-veg-shape-file}
+island_veg_no_na <- island_veg_all %>%
+  select(location, date, gps, cover, height, common, spp_code, spp, notes, POINT_X, POINT_Y, height_class, height_class_range, percent_cover_range) %>%
+  na.omit(island_veg_no_na) #%>%
+  #island_veg_shape <- st_as_sf(island_veg_all, coords = c(10:11))
+```
 
+-
 Visualize bird data
 ```{r, bird-species-bar-plot-by-island}
 #I'm trying to figure out how to display totals on the ends of the bars so you can see numbers that don't show up in the bars. 
@@ -316,9 +340,62 @@ island_bird %>%
        fill = "Bird species") +
   theme_minimal()
 ```
+-
+```{r, assign-colors-to-bird-species}
+colors <- c("herring gull" = "#21918c", "great black-backed gull" = "#440154", "common eider" = "#fde725", "canada goose" = "#5ec962", "double-crested cormorant" = "#3b528b")
+```
+-
+```{r, ggplot-map-of-nests-on-gdi, fig.width=20, dev='jpeg'}
+island_bird %>%
+filter(location == "gdi") %>% #filter for one island for better vis
+ggplot() +
+  geom_sf(aes(color = species)) + #spacial geom
+  scale_color_manual(values = colors) #use same color pallette so species match on each plot
+  labs(title = "Seabird nests on Great Duck Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Species")
+```
+-
+```{r, ggplot-map-of-nests-on-heron, fig.width=20, dev='jpeg'}
+island_bird %>%
+filter(location == "heron") %>%
+ggplot() +
+  geom_sf(aes(color = species)) +
+  scale_color_manual(values = colors)
+  labs(title = "Seabird nests on Heron Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Species")
+```
+-
+```{r, ggplot-map-of-nests-on-schoodic, fig.width=20, dev='jpeg'}
+island_bird %>%
+filter(location == "schoodic") %>%
+ggplot() +
+  geom_sf(aes(color = species)) +
+  scale_color_manual(values = colors)
+  labs(title = "Seabird nests on Schoodic Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Species")
+```
+-
+```{r, ggplot-map-of-nests-on-shabby, fig.width=20, dev='jpeg'}
+island_bird %>%
+filter(location == "shabby") %>%
+ggplot() +
+  geom_sf(aes(color = species)) +
+  scale_color_manual(values = colors)
+  labs(title = "Seabird nests on Shabby Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Species")
+```
+-
 
 Visualize vegetation data
-```{r species-barplot-by-island, fig.height=10, dev='jpeg'}
+```{r, species-barplot-by-island, fig.height=10, dev='jpeg'}
 island_veg_all %>%
   filter(spp != "unknown") %>% #filtering out all of the unknown species
   ggplot(mapping = aes(y = spp)
@@ -347,7 +424,7 @@ island_veg_all %>%
 # dev.off()
 ```
 -
-```{r height-class-distribution-by-island-bar-plot}
+```{r, height-class-distribution-by-island-bar-plot}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
   geom_bar(position = "fill") +
@@ -358,8 +435,8 @@ island_veg_all %>%
        fill = "Plant height classes (m)") +
   theme_minimal()
 ```
-
-```{r}
+-
+```{r, not-working-yet-veg-types-by-island}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = type)) +
   geom_bar(position = "fill") +
@@ -370,7 +447,101 @@ island_veg_all %>%
        fill = "Plant types") +
   theme_minimal()
 ```
+-
+```{r, assign-colors-to-percent-cover}
+cover_color <- c("0-0.01" = "#dadaeb", "0.06-0.25" = "#bcbddc", "0.26-0.50" = "#9e9ac8", "0.51-0.75" = "#756bb1", "0.76-1.00" = "#54278f")
+```
+-
+```{r, ggplot-map-percent-cover-on-heron}
+island_veg_all %>%
+  filter(location == "heron") %>%
+  ggplot() +
+  geom_point(aes(POINT_X, POINT_Y, color = percent_cover_range)) + #geom point because data doesn't read as geometry. Rename column?
+  scale_color_manual(values = cover_color) + #color scale for percent cover, darker is more cover
+  scale_y_continuous(labels = ~ paste0(.x, "°N")) + #add lat/long symbols to axis
+  scale_x_continuous(labels = ~ paste0(.x, "°W")) +
+  labs(title = "Percent cover on Heron Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Percent cover")
+```
+-
+```{r, ggplot-map-percent-cover-on-schoodic}
+island_veg_all %>%
+  filter(location == "schoodic") %>%
+  ggplot() +
+  geom_point(aes(POINT_X, POINT_Y, color = percent_cover_range)) +
+  scale_color_manual(values = cover_color) +
+  scale_y_continuous(labels = ~ paste0(.x, "°N")) +
+  scale_x_continuous(labels = ~ paste0(.x, "°W")) +
+  labs(title = "Percent cover on Schoodic Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Percent cover")
+```
+-
+```{r, ggplot-map-percent-cover-on-shabby}
+island_veg_all %>%
+  filter(location == "shabby") %>%
+  ggplot() +
+  geom_point(aes(POINT_X, POINT_Y, color = percent_cover_range)) +
+  scale_color_manual(values = cover_color) +
+  scale_y_continuous(labels = ~ paste0(.x, "°N")) +
+  scale_x_continuous(labels = ~ paste0(.x, "°W")) +
+  labs(title = "Percent cover on Shabby Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Percent cover")
+```
+-
+```{r, assign-colors-to-height-classes}
+height_color <- c("0-0.15" = "#ffffb2", "0.15-0.30" = "#fecc5c", "0.30-1" = "#fd8d3c", "1-1.5" = "#f03b20", "1.5+" = "#bd0026")
+```
+-
+```{r, ggplot-geom_point-map-height-on-heron}
+island_veg_all %>%
+  filter(location == "heron") %>%
+  ggplot() +
+  geom_point(aes(POINT_X, POINT_Y, color = fct_rev(height_class_range))) + #rev height range so it goes low to high
+  scale_color_manual(values = height_color) + #special color scale for height
+  scale_y_continuous(labels = ~ paste0(.x, "°N")) +
+  scale_x_continuous(labels = ~ paste0(.x, "°W")) +
+  labs(title = "Height class on Heron Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Height class")
+```
+-
+```{r, ggplot-geom_point-map-height-on-schoodic}
+island_veg_all %>%
+  filter(location == "schoodic") %>%
+  ggplot() +
+  geom_point(aes(POINT_X, POINT_Y, color = fct_rev(height_class_range))) +
+  scale_color_manual(values = height_color) +
+  scale_y_continuous(labels = ~ paste0(.x, "°N")) +
+  scale_x_continuous(labels = ~ paste0(.x, "°W")) +
+  labs(title = "Height class on Schoodic Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Height class")
+```
+-
+```{r, ggplot-geom_point-map-height-on-shabby}
+island_veg_all %>%
+  filter(location == "shabby") %>%
+  ggplot() +
+  geom_point(aes(POINT_X, POINT_Y, color = fct_rev(height_class_range))) +
+  scale_color_manual(values = height_color) +
+  scale_y_continuous(labels = ~ paste0(.x, "°N")) +
+  scale_x_continuous(labels = ~ paste0(.x, "°W")) +
+  labs(title = "Height class on Shabby Island",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Height class")
+```
+-
 
+Compare birds and vegetation
 
 ```{r}
 # =======

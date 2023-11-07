@@ -230,7 +230,7 @@ island_veg_all$type <- "NA"
 ```
 -
 ```{r assign-veg-types}
-island_veg_all %>%
+island_veg_all <- island_veg_all %>%
   # select(location:percent_cover_range) %>%
    mutate(type = case_when(
     spp == "Achillea millefolium" ~ "herb",
@@ -286,7 +286,6 @@ island_veg_all %>%
     spp == "Veronica arvensis" ~ "herb",
     TRUE ~ type
   ))
-print(island_veg_all)
 ```
 -
 ```{r, find-unique-species-veg}

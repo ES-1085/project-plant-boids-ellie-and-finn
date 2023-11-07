@@ -304,6 +304,14 @@ visdat::vis_miss(island_veg_all)
 naniar::gg_miss_var(island_veg_all)
 ```
 -
+```{r, create-veg-shape-file}
+island_veg_no_na <- island_veg_all %>%
+  select(location, date, gps, cover, height, common, spp_code, spp, notes, POINT_X, POINT_Y, height_class, height_class_range, percent_cover_range) %>%
+  na.omit(island_veg_no_na) #%>%
+  #island_veg_shape <- st_as_sf(island_veg_all, coords = c(10:11))
+```
+
+-
 Visualize bird data
 ```{r, bird-species-bar-plot-by-island}
 #I'm trying to figure out how to display totals on the ends of the bars so you can see numbers that don't show up in the bars. 

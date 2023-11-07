@@ -548,16 +548,17 @@ island_veg_all %>%
 
 Compare birds and vegetation
 
-```{r leaflet}
-#island_veg_shape %>%
-#select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
-# #         # rename("percent cover" = "cover", "height class" = "height_class_range", "common name" = "common", "species" = "spp", "long" = "POINT_X", "lat" = "POINT_Y") %>%
-# sf(data = island_veg_all) %>%
-# addTiles() %>%
-# setView(lng = -68,
-#         lat = 44,
-#         zoom = 10) %>%
-#   addCircleMarkers(~POINT_X, ~POINT_Y)
+```{r, leaflet}
+leaflet() %>% 
+  addProviderTiles("CartoDB.Positron") %>%
+  setView(lng = -68.25,
+          lat = 44.25,
+          zoom = 10) #%>%
+    # addCircleMarkers(data=island_veg_shape,
+    #                  fillColor = ~height_color(island_veg_shape$height_class_range)) %>%
+    # addCircleMarkers(data=island_bird,
+    #                  color = colors)
+
 ```
 
 

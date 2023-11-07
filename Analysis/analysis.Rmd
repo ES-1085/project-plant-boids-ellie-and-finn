@@ -271,6 +271,7 @@ island_veg_all <- island_veg_all %>%
     spp == "Rumex acetosella" ~ "herb",
     spp == "Rumex longifolius" ~ "herb",
     spp == "Rumex sp." ~ "herb",
+    spp == "Rubus shrub spp. (#32)" ~ "shrub",
     spp == "Scutellaria galericulata" ~ "herb",
     spp == "Solanum dulcamara" ~ "vine",
     spp == "Solidago rugosa" ~ "herb",
@@ -316,7 +317,6 @@ island_veg_no_na_2 <- filter(island_veg_no_na, location != "gdi")
 #creating a vegetation shape file
 island_veg_shape <- st_as_sf(island_veg_no_na_2, coords = c(10:11))
 ```
-
 -
 Visualize bird data
 ```{r, bird-species-bar-plot-by-island}

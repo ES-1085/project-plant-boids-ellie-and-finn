@@ -548,13 +548,9 @@ island_veg_all %>%
 
 Compare birds and vegetation
 
-```{r}
-# =======
-# -
-# ```{r leaflet}
-# >>>>>>> bb7949e6f5236b825be637c85e47178b8fae9fc4
-# island_veg_all %>%
-# #         # select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
+```{r leaflet}
+#island_veg_shape %>%
+#select("cover", "height_class_range", "common", "spp", "POINT_X", "POINT_Y") %>%
 # #         # rename("percent cover" = "cover", "height class" = "height_class_range", "common name" = "common", "species" = "spp", "long" = "POINT_X", "lat" = "POINT_Y") %>%
 # sf(data = island_veg_all) %>%
 # addTiles() %>%

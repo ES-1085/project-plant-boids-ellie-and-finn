@@ -40,9 +40,9 @@ shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
 ```
 
 -
-TIDYING
+###TIDYING
 
-Tidy bird data
+##Tidy bird data
 ```{r, create-location-colmn-birds}
 gdi_bird$location <- c("gdi")
 heron_bird$location <- c("heron")
@@ -99,9 +99,22 @@ island_bird <- island_bird %>%
 island_bird_dataframe <- as.data.frame(island_bird)
 visdat::vis_dat(island_bird_dataframe)
 ```
+#create bird color palette
+```{r, assign-colors-to-bird-species}
+ colors <- c("herring gull" = "#21918c", 
+             "great black-backed gull" = "#440154", 
+             "common eider" = "#fde725", 
+             "canada goose" = "#5ec962", 
+             "double-crested cormorant" = "#3b528b")
+```
+-
+```{r, assign-colors-to-bird-species-for-leaflet}
+ bird_color <- colorFactor(palette = c("#21918c", "#440154", "#fde725", "#5ec962", "#3b528b"),
+                      domain = c("herring gull", "great black-backed gull", "common eider", "canada goose", "double-crested cormorant"))
+```
 -
 
-Tidy vegetation data
+##Tidy vegetation data
 ```{r join veg & coordinates}
 island_veg_all <- island_veg %>%
                   left_join(veg_attributes, join_by("gps" == "name"))
@@ -289,7 +302,7 @@ island_veg_all <- island_veg_all %>%
     TRUE ~ type
   ))
 ```
--
+#visualize the dataset
 ```{r, find-unique-species-veg}
 unique <- unique(island_veg_all$spp)
 sort(unique)
@@ -306,7 +319,7 @@ visdat::vis_miss(island_veg_all)
 ```{r, visualize-missing-variables-veg-data}
 naniar::gg_miss_var(island_veg_all)
 ```
--
+#create veg shape file from csv
 ```{r, create-veg-shape-file}
 #removing columns that are entirely na
 island_veg_no_na <- island_veg_all %>%
@@ -318,8 +331,39 @@ island_veg_no_na_2 <- filter(island_veg_no_na, location != "gdi")
 #creating a vegetation shape file
 island_veg_shape <- st_as_sf(island_veg_no_na_2, coords = c(10:11))
 ```
+<<<<<<< HEAD
+#create veg color palettes
+```{r, assign-colors-to-percent-cover}
+cover_color <- c("0-0.01" = "#dadaeb", 
+                 "0.06-0.25" = "#bcbddc", 
+                 "0.26-0.50" = "#9e9ac8", 
+                 "0.51-0.75" = "#756bb1", 
+                 "0.76-1.00" = "#54278f") 
+```
 -
-Visualize bird data
+```{r, assign-colors-to-percent-cover-for-leaflet}
+cover_color_leaf <- colorFactor(palette = c("#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"), 
+                           domain = c("0-0.01", "0.06-0.25", "0.26-0.50", "0.51-0.75", "0.76-1.00"))
+```
+-
+```{r, assign-colors-to-height-classes}
+height_color <- c("0-0.15" = "#ffffb2", 
+                  "0.15-0.30" = "#fecc5c", 
+                  "0.30-1" = "#fd8d3c", 
+                  "1-1.5" = "#f03b20", 
+                  "1.5+" = "#bd0026")
+```
+-
+```{r, assign-colors-to-height-classes-for-leaflet}
+height_color_leaf <- colorFactor(palette = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026"), 
+                            domain = c("0-0.15", "0.15-0.30", "0.30-1", "1-1.5", "1.5+"))
+```
+=======
+>>>>>>> 9943bb3465ffeb17203d46eada48e91b9adb692e
+
+###VISUALIZING
+
+##Visualize bird data
 ```{r, bird-species-bar-plot-by-island}
 #I'm trying to figure out how to display totals on the ends of the bars so you can see numbers that don't show up in the bars. 
 island_bird %>%
@@ -345,17 +389,13 @@ island_bird %>%
        fill = "Bird species") +
   theme_minimal()
 ```
--
-```{r, assign-colors-to-bird-species}
-colors <- c("herring gull" = "#21918c", "great black-backed gull" = "#440154", "common eider" = "#fde725", "canada goose" = "#5ec962", "double-crested cormorant" = "#3b528b")
-```
--
+#geom_sf maps of species on each island
 ```{r, ggplot-map-of-nests-on-gdi, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "gdi") %>% #filter for one island for better vis
 ggplot() +
   geom_sf(aes(color = species)) + #spacial geom
-  scale_color_manual(values = colors) #use same color pallette so species match on each plot
+  scale_color_manual(values = colors) + #use same color palette so species match on each plot
   labs(title = "Seabird nests on Great Duck Island",
        x = "Longitude",
        y = "Latitude",
@@ -399,7 +439,7 @@ ggplot() +
 ```
 -
 
-Visualize vegetation data
+##Visualize vegetation data
 ```{r, species-barplot-by-island, fig.height=10, dev='jpeg'}
 island_veg_all %>%
   filter(spp != "unknown") %>% #filtering out all of the unknown species
@@ -452,12 +492,8 @@ island_veg_all %>%
        fill = "Plant types") +
   theme_minimal()
 ```
--
-```{r, assign-colors-to-percent-cover}
-cover_color <- c("0-0.01" = "#dadaeb", "0.06-0.25" = "#bcbddc", "0.26-0.50" = "#9e9ac8", "0.51-0.75" = "#756bb1", "0.76-1.00" = "#54278f")
-```
--
-```{r, ggplot-map-percent-cover-on-heron}
+#geom_point maps of the percent cover on each island
+```{r, ggplot-geom_point-map-percent-cover-on-heron}
 island_veg_all %>%
   filter(location == "heron") %>%
   ggplot() +
@@ -471,7 +507,7 @@ island_veg_all %>%
        color = "Percent cover")
 ```
 -
-```{r, ggplot-map-percent-cover-on-schoodic}
+```{r, ggplot-geom_point-map-percent-cover-on-schoodic}
 island_veg_all %>%
   filter(location == "schoodic") %>%
   ggplot() +
@@ -485,7 +521,7 @@ island_veg_all %>%
        color = "Percent cover")
 ```
 -
-```{r, ggplot-map-percent-cover-on-shabby}
+```{r, ggplot-geom_point-map-percent-cover-on-shabby}
 island_veg_all %>%
   filter(location == "shabby") %>%
   ggplot() +
@@ -498,11 +534,7 @@ island_veg_all %>%
        y = "Latitude",
        color = "Percent cover")
 ```
--
-```{r, assign-colors-to-height-classes}
-height_color <- c("0-0.15" = "#ffffb2", "0.15-0.30" = "#fecc5c", "0.30-1" = "#fd8d3c", "1-1.5" = "#f03b20", "1.5+" = "#bd0026")
-```
--
+#geom_point maps of the height classes on each island
 ```{r, ggplot-geom_point-map-height-on-heron}
 island_veg_all %>%
   filter(location == "heron") %>%
@@ -546,19 +578,29 @@ island_veg_all %>%
 ```
 -
 
-Compare birds and vegetation
-
-```{r, leaflet}
+##Compare birds and vegetation
+```{r, change_coordinate_system_for_bird}
+#update bird data to the coordinate system used in leaflet
+island_bird <- st_transform(island_bird, "+init=epsg:4326")
+```
+-
+```{r, leaflet-map-of-height-and-bird-species}
 leaflet() %>% 
-  addProviderTiles("CartoDB.Positron") %>%
+  #basemap
+  addProviderTiles("CartoDB.Positron") %>% 
+  #setView to show all islands
   setView(lng = -68.25,
           lat = 44.25,
-          zoom = 10) #%>%
-    # addCircleMarkers(data=island_veg_shape,
-    #                  fillColor = ~height_color(island_veg_shape$height_class_range)) %>%
-    # addCircleMarkers(data=island_bird,
-    #                  color = colors)
-
+          zoom = 10) %>% 
+  #add markers for the birds and color by species using bird_color palette
+  addCircleMarkers(data = island_bird,
+                   color = ~bird_color(island_bird$species),
+                   fillColor = ~bird_color(island_bird$species)) %>% 
+  #add markers for veg colored by height class using the height_color_leaf palette
+  addCircleMarkers(data = island_veg_shape, 
+                   color = ~height_color_leaf(island_veg_shape$height_class_range), 
+                   fillColor = ~height_color_leaf(island_veg_shape$height_class_range))
+    
 ```
 
 #I would like to have a representation of bird densities and then veg plots colored by height

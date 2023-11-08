@@ -26,7 +26,7 @@ library(ggridges)
 Read in data files
 ```{r, read-in-vegetation-file, echo = FALSE}
 island_veg <- read_csv("../data/island_veg.csv")
-veg_attributes <- read_csv("../data/plotpointsattributes.csv")
+veg_attributes <- read_csv("../data/plotpointsattributes.csv", "../")
 ```
 -
 ```{r, read-in-bird-files, echo = FALSE}

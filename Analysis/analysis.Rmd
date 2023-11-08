@@ -99,6 +99,19 @@ island_bird_dataframe <- as.data.frame(island_bird)
 visdat::vis_dat(island_bird_dataframe)
 ```
 -
+```{r, assign-colors-to-bird-species}
+ colors <- c("herring gull" = "#21918c", 
+             "great black-backed gull" = "#440154", 
+             "common eider" = "#fde725", 
+             "canada goose" = "#5ec962", 
+             "double-crested cormorant" = "#3b528b")
+```
+-
+```{r, assign-colors-to-bird-species-for-leaflet}
+ bird_color <- colorFactor(palette = c("#21918c", "#440154", "#fde725", "#5ec962", "#3b528b"),
+                      domain = c("herring gull", "great black-backed gull", "common eider", "canada goose", "double-crested cormorant"))
+```
+-
 
 Tidy vegetation data
 ```{r join veg & coordinates}
@@ -317,7 +330,32 @@ island_veg_no_na_2 <- filter(island_veg_no_na, location != "gdi")
 #creating a vegetation shape file
 island_veg_shape <- st_as_sf(island_veg_no_na_2, coords = c(10:11))
 ```
-
+-
+```{r, assign-colors-to-percent-cover}
+cover_color <- c("0-0.01" = "#dadaeb", 
+                 "0.06-0.25" = "#bcbddc", 
+                 "0.26-0.50" = "#9e9ac8", 
+                 "0.51-0.75" = "#756bb1", 
+                 "0.76-1.00" = "#54278f") 
+```
+-
+```{r, assign-colors-to-percent-cover-for-leaflet}
+cover_color_leaf <- colorFactor(palette = c("#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"), 
+                           domain = c("0-0.01", "0.06-0.25", "0.26-0.50", "0.51-0.75", "0.76-1.00"))
+```
+-
+```{r, assign-colors-to-height-classes}
+height_color <- c("0-0.15" = "#ffffb2", 
+                  "0.15-0.30" = "#fecc5c", 
+                  "0.30-1" = "#fd8d3c", 
+                  "1-1.5" = "#f03b20", 
+                  "1.5+" = "#bd0026")
+```
+-
+```{r, assign-colors-to-height-classes-for-leaflet}
+height_color_leaf <- colorFactor(palette = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026"), 
+                            domain = c("0-0.15", "0.15-0.30", "0.30-1", "1-1.5", "1.5+"))
+```
 -
 Visualize bird data
 ```{r, bird-species-bar-plot-by-island}
@@ -346,16 +384,12 @@ island_bird %>%
   theme_minimal()
 ```
 -
-```{r, assign-colors-to-bird-species}
-colors <- c("herring gull" = "#21918c", "great black-backed gull" = "#440154", "common eider" = "#fde725", "canada goose" = "#5ec962", "double-crested cormorant" = "#3b528b")
-```
--
 ```{r, ggplot-map-of-nests-on-gdi, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "gdi") %>% #filter for one island for better vis
 ggplot() +
   geom_sf(aes(color = species)) + #spacial geom
-  scale_color_manual(values = colors) #use same color pallette so species match on each plot
+  scale_color_manual(values = colors) + #use same color palette so species match on each plot
   labs(title = "Seabird nests on Great Duck Island",
        x = "Longitude",
        y = "Latitude",
@@ -453,10 +487,6 @@ island_veg_all %>%
   theme_minimal()
 ```
 -
-```{r, assign-colors-to-percent-cover}
-cover_color <- c("0-0.01" = "#dadaeb", "0.06-0.25" = "#bcbddc", "0.26-0.50" = "#9e9ac8", "0.51-0.75" = "#756bb1", "0.76-1.00" = "#54278f")
-```
--
 ```{r, ggplot-map-percent-cover-on-heron}
 island_veg_all %>%
   filter(location == "heron") %>%
@@ -497,10 +527,6 @@ island_veg_all %>%
        x = "Longitude",
        y = "Latitude",
        color = "Percent cover")
-```
--
-```{r, assign-colors-to-height-classes}
-height_color <- c("0-0.15" = "#ffffb2", "0.15-0.30" = "#fecc5c", "0.30-1" = "#fd8d3c", "1-1.5" = "#f03b20", "1.5+" = "#bd0026")
 ```
 -
 ```{r, ggplot-geom_point-map-height-on-heron}
@@ -547,18 +573,23 @@ island_veg_all %>%
 -
 
 Compare birds and vegetation
-
+```{r, change_coordinate_system_for_bird}
+island_bird <- st_transform(island_bird, "+init=epsg:4326")
+```
+-
 ```{r, leaflet}
 leaflet() %>% 
   addProviderTiles("CartoDB.Positron") %>%
   setView(lng = -68.25,
           lat = 44.25,
-          zoom = 10) #%>%
-    # addCircleMarkers(data=island_veg_shape,
-    #                  fillColor = ~height_color(island_veg_shape$height_class_range)) %>%
-    # addCircleMarkers(data=island_bird,
-    #                  color = colors)
-
+          zoom = 10) %>%
+  addCircleMarkers(data = island_bird,
+                   color = ~bird_color(island_bird$species),
+                   fillColor = ~bird_color(island_bird$species)) %>%
+  addCircleMarkers(data = island_veg_shape, 
+                   color = ~height_color_leaf(island_veg_shape$height_class_range), 
+                   fillColor = ~height_color_leaf(island_veg_shape$height_class_range))
+    
 ```
 
 

@@ -19,7 +19,8 @@ library(kableExtra) ## Table  output (in slides)
 library(visdat)
 # install.packages("naniar")
 library(naniar)
-library(readxl)
+library(readxl) ##working with xcel sheets
+library(ggridges)
 ```
 
 Read in data files
@@ -560,5 +561,14 @@ leaflet() %>%
 
 ```
 
+#I would like to have a representation of bird densities and then veg plots colored by height
+#also veg plots represented by dominant vegetation type in colors
+```{r species richness representations}
+#ridge plot of # of species in each plot by island
+island_veg_all %>%
+  ggplot(x = gps) +
+  geom_histogram()
+  
 
+```
 

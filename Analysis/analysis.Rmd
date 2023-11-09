@@ -24,7 +24,7 @@ library(ggridges)
 ```
 
 ### READ IN DATA
-```{r, read-in-vegetation-file, echo = FALSE}
+```{r read-in-vegetation-file, echo = FALSE}
 island_veg <- read_csv("../data/island_veg.csv")
 veg_attributes <- read_csv("../data/plotpointsattributes.csv") 
 gdi_attributes <- read_csv("../data/gdipointsattributes.csv")
@@ -39,7 +39,7 @@ gdi_attributes <- gdi_attributes %>%
 veg_attributes <- full_join(veg_attributes, gdi_attributes)
 ```
 -
-```{r, read-in-bird-files, echo = FALSE}
+```{r read-in-bird-files, echo = FALSE}
 gdi_bird <- st_read("../data/gull data/gdi_nests/gdi_nests_Merge.shp")
 heron_bird <- st_read("../data/gull data/heron_nests/herg_nests_heron.shp")
 #coei_schoodic_bird <- st_read("../data/gull data/schoodic_nests/coei_nests.shp")
@@ -53,26 +53,26 @@ shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
 ###TIDYING
 
 ##Tidy bird data
-```{r, create-location-colmn-birds}
+```{r create-location-colmn-birds}
 gdi_bird$location <- c("gdi")
 heron_bird$location <- c("heron")
 shabby_bird$location <- c("shabby")
 schoodic_bird$location <- c("schoodic")
 ```
 -
-```{r, recode-shabby-column-names}
+```{r recode-shabby-column-names}
   colnames(shabby_bird)[which(names(shabby_bird) == "Point_ge_4")] <- "GPS_Date"
   colnames(shabby_bird)[which(names(shabby_bird) == "shabby_i_2")] <- "species"
   colnames(shabby_bird)[which(names(shabby_bird) == "Point_gene")] <- "Point_ID"
 ```
 -
-```{r, recode-schoodic-column-names}
+```{r recode-schoodic-column-names}
   colnames(schoodic_bird)[which(names(schoodic_bird) == "all_nest_3")] <- "GPS_Date"
   colnames(schoodic_bird)[which(names(schoodic_bird) == "schoodic_2")] <- "species"
   colnames(schoodic_bird)[which(names(schoodic_bird) == "schoodic_c")] <- "Point_ID"
 ```
 -
-```{r, select-relevant-columns-in-bird-data}
+```{r select-relevant-columns-in-bird-data}
 gdi_bird_all <- gdi_bird %>%
   select(Point_ID, GPS_Date, species, location, geometry)
  
@@ -87,11 +87,11 @@ schoodic_bird_all <- schoodic_bird %>%
   select(Point_ID, GPS_Date, species, location, geometry)
 ```
 -
-```{r, combine-bird-datasets-for-all-islands}
+```{r combine-bird-datasets-for-all-islands}
 island_bird <- rbind(gdi_bird_all, heron_bird_all, shabby_bird_all, schoodic_bird_all)
 ```
 -
-```{r, rename-bird-species-with-full-names}
+```{r rename-bird-species-with-full-names}
 island_bird <- island_bird %>%
   mutate(species = case_when(
     species == "gbbg" ~ "great black-backed gull",
@@ -105,12 +105,12 @@ island_bird <- island_bird %>%
   filter(species != "NA")
 ```
 -
-```{r, visualize-missing-bird-data}
+```{r visualize-missing-bird-data}
 island_bird_dataframe <- as.data.frame(island_bird)
 visdat::vis_dat(island_bird_dataframe)
 ```
 #create bird color palette
-```{r, assign-colors-to-bird-species}
+```{r assign-colors-to-bird-species}
  colors <- c("herring gull" = "#21918c", 
              "great black-backed gull" = "#440154", 
              "common eider" = "#fde725", 
@@ -118,7 +118,7 @@ visdat::vis_dat(island_bird_dataframe)
              "double-crested cormorant" = "#3b528b")
 ```
 -
-```{r, assign-colors-to-bird-species-for-leaflet}
+```{r assign-colors-to-bird-species-for-leaflet}
  bird_color <- colorFactor(palette = c("#21918c", "#440154", "#fde725", "#5ec962", "#3b528b"),
                       domain = c("herring gull", "great black-backed gull", "common eider", "canada goose", "double-crested cormorant"), 
                       ordered = TRUE)
@@ -140,7 +140,7 @@ island_veg_all <- island_veg_all %>%
   ))
 ```
 -
-```{r, recode-veg-height-class-names}
+```{r recode-veg-height-class-names}
  island_veg_all <- island_veg_all %>%
 mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height class a factor variable in order to use it in a bar chart
   mutate(height_class_range = case_when(
@@ -152,7 +152,7 @@ mutate(height_class = case_when(TRUE ~ as.factor(height))) %>% #making height cl
   ))
 ```
 -
-```{r, recode-veg-cover-names}
+```{r recode-veg-cover-names}
 island_veg_all <- island_veg_all %>%
   mutate(percent_cover_range = case_when(
     cover == "1" ~ "0-0.01",
@@ -314,24 +314,24 @@ island_veg_all <- island_veg_all %>%
   ))
 ```
 #visualize the dataset
-```{r, find-unique-species-veg}
+```{r find-unique-species-veg}
 unique <- unique(island_veg_all$spp)
 sort(unique)
 ```
 -
-```{r, visualize-missing-veg-data}
+```{r visualize-missing-veg-data}
 visdat::vis_dat(island_veg_all)
 ```
 -
-```{r, visualize-percent-missing-veg-data}
+```{r visualize-percent-missing-veg-data}
 visdat::vis_miss(island_veg_all)
 ```
 -
-```{r, visualize-missing-variables-veg-data}
+```{r visualize-missing-variables-veg-data}
 naniar::gg_miss_var(island_veg_all)
 ```
 #create veg shape file from csv
-```{r, create-veg-shape-file}
+```{r create-veg-shape-file}
 # #removing columns that are entirely na
 # island_veg_no_na <- island_veg_all %>%
 #   select(location, date, gps, cover, height, common, spp_code, spp, notes, POINT_X, POINT_Y, height_class, height_class_range, percent_cover_range, type)
@@ -347,7 +347,7 @@ island_veg_shape <- st_as_sf(island_veg_all, coords = c(13:14))
 ```
 <<<<<<< HEAD
 #create veg color palettes
-```{r, assign-colors-to-percent-cover}
+```{r assign-colors-to-percent-cover}
 cover_color <- c("0-0.01" = "#dadaeb", 
                  "0.06-0.25" = "#bcbddc", 
                  "0.26-0.50" = "#9e9ac8", 
@@ -355,13 +355,13 @@ cover_color <- c("0-0.01" = "#dadaeb",
                  "0.76-1.00" = "#54278f") 
 ```
 -
-```{r, assign-colors-to-percent-cover-for-leaflet}
+```{r assign-colors-to-percent-cover-for-leaflet}
 cover_color_leaf <- colorFactor(palette = c("#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"), 
                            domain = c("0-0.01", "0.06-0.25", "0.26-0.50", "0.51-0.75", "0.76-1.00"),
                            ordered = TRUE)
 ```
 -
-```{r, assign-colors-to-height-classes}
+```{r assign-colors-to-height-classes}
 height_color <- c("0-0.15" = "#ffffb2", 
                   "0.15-0.30" = "#fecc5c", 
                   "0.30-1" = "#fd8d3c", 
@@ -369,7 +369,7 @@ height_color <- c("0-0.15" = "#ffffb2",
                   "1.5+" = "#bd0026")
 ```
 -
-```{r, assign-colors-to-height-classes-for-leaflet}
+```{r assign-colors-to-height-classes-for-leaflet}
 height_color_leaf <- colorFactor(palette = c("#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026"), 
                             domain = c("0-0.15", "0.15-0.30", "0.30-1", "1-1.5", "1.5+"),
                             ordered = TRUE)
@@ -381,7 +381,7 @@ height_color_leaf <- colorFactor(palette = c("#ffffb2", "#fecc5c", "#fd8d3c", "#
 ###VISUALIZING
 
 ##Visualize bird data
-```{r, bird-species-bar-plot-by-island}
+```{r bird-species-bar-plot-by-island}
 #I'm trying to figure out how to display totals on the ends of the bars so you can see numbers that don't show up in the bars. 
 island_bird %>%
   ggplot(mapping = aes(y = species),
@@ -395,7 +395,7 @@ island_bird %>%
        y = "Bird species")
 ```
 -
-```{r, species-percentage-by-island}
+```{r species-percentage-by-island}
 island_bird %>%
   ggplot(mapping = aes(x = location, fill = (species))) + 
   geom_bar(position = "fill") +
@@ -407,7 +407,7 @@ island_bird %>%
   theme_minimal()
 ```
 #geom_sf maps of species on each island
-```{r, ggplot-map-of-nests-on-gdi, fig.width=20, dev='jpeg'}
+```{r ggplot-map-of-nests-on-gdi, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "gdi") %>% #filter for one island for better vis
 ggplot() +
@@ -419,7 +419,7 @@ ggplot() +
        color = "Species")
 ```
 -
-```{r, ggplot-map-of-nests-on-heron, fig.width=20, dev='jpeg'}
+```{r ggplot-map-of-nests-on-heron, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "heron") %>%
 ggplot() +
@@ -431,7 +431,7 @@ ggplot() +
        color = "Species")
 ```
 -
-```{r, ggplot-map-of-nests-on-schoodic, fig.width=20, dev='jpeg'}
+```{r ggplot-map-of-nests-on-schoodic, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "schoodic") %>%
 ggplot() +
@@ -443,7 +443,7 @@ ggplot() +
        color = "Species")
 ```
 -
-```{r, ggplot-map-of-nests-on-shabby, fig.width=20, dev='jpeg'}
+```{r ggplot-map-of-nests-on-shabby, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "shabby") %>%
 ggplot() +
@@ -457,7 +457,7 @@ ggplot() +
 -
 
 ##Visualize vegetation data
-```{r, species-barplot-by-island, fig.height=10, dev='jpeg'}
+```{r species-barplot-by-island, fig.height=10, dev='jpeg'}
 island_veg_all %>%
   filter(spp != "unknown") %>% #filtering out all of the unknown species
   ggplot(mapping = aes(y = spp)
@@ -486,7 +486,7 @@ island_veg_all %>%
 # dev.off()
 ```
 -
-```{r, height-class-distribution-by-island-bar-plot}
+```{r height-class-distribution-by-island-bar-plot}
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
   geom_bar(position = "fill") +
@@ -498,7 +498,7 @@ island_veg_all %>%
   theme_minimal()
 ```
 -
-```{r, not-working-yet-veg-types-by-island}
+```{r not-working-yet-veg-types-by-island}
 island_veg_all %>% 
   ggplot(mapping = aes(x = location, fill = type)) +
   geom_bar(position = "fill") +
@@ -510,7 +510,7 @@ island_veg_all %>%
   theme_minimal()
 ```
 #geom_point maps of the percent cover on each island
-```{r, ggplot-geom_point-map-percent-cover-on-heron}
+```{r ggplot-geom_point-map-percent-cover-on-heron}
 island_veg_all %>%
   filter(location == "heron") %>%
   ggplot() +
@@ -524,7 +524,7 @@ island_veg_all %>%
        color = "Percent cover")
 ```
 -
-```{r, ggplot-geom_point-map-percent-cover-on-schoodic}
+```{r ggplot-geom_point-map-percent-cover-on-schoodic}
 island_veg_all %>%
   filter(location == "schoodic") %>%
   ggplot() +
@@ -538,7 +538,7 @@ island_veg_all %>%
        color = "Percent cover")
 ```
 -
-```{r, ggplot-geom_point-map-percent-cover-on-shabby}
+```{r ggplot-geom_point-map-percent-cover-on-shabby}
 island_veg_all %>%
   filter(location == "shabby") %>%
   ggplot() +
@@ -552,7 +552,7 @@ island_veg_all %>%
        color = "Percent cover")
 ```
 #geom_point maps of the height classes on each island
-```{r, ggplot-geom_point-map-height-on-heron}
+```{r ggplot-geom_point-map-height-on-heron}
 island_veg_all %>%
   filter(location == "heron") %>%
   ggplot() +
@@ -566,7 +566,7 @@ island_veg_all %>%
        color = "Height class")
 ```
 -
-```{r, ggplot-geom_point-map-height-on-schoodic}
+```{r ggplot-geom_point-map-height-on-schoodic}
 island_veg_all %>%
   filter(location == "schoodic") %>%
   ggplot() +
@@ -580,7 +580,7 @@ island_veg_all %>%
        color = "Height class")
 ```
 -
-```{r, ggplot-geom_point-map-height-on-shabby}
+```{r ggplot-geom_point-map-height-on-shabby}
 island_veg_all %>%
   filter(location == "shabby") %>%
   ggplot() +
@@ -596,12 +596,12 @@ island_veg_all %>%
 -
 
 ##Compare birds and vegetation
-```{r, change_coordinate_system_for_bird}
+```{r change_coordinate_system_for_bird}
 #update bird data to the coordinate system used in leaflet
 island_bird <- st_transform(island_bird, "+init=epsg:4326")
 ```
 -
-```{r, leaflet-map-of-height-and-bird-species}
+```{r leaflet-map-of-height-and-bird-species}
 leaflet() %>% 
   #basemap
   addProviderTiles("CartoDB.Positron") %>% 
@@ -639,10 +639,15 @@ iva <- island_veg_all %>%
   select(-numSp) %>%
   aggregate(NSp~gps+location, FUN = "mean")
 
-ggplot(iva, aes(NSp, location, fill = location)) +
-  geom_density_ridges(alpha = 0.5) +
+ggplot(iva, aes(NSp, location, fill = fct_rev(location))) +
+  geom_density_ridges(alpha = 0.5, bandwidth = .6) +
   xlim(0,15) +
-  scale_fill_viridis_d()
+  scale_fill_viridis_d() +
+  labs(title = "Species Richness per Plot, by Island",
+       y = "Island",
+       x = "# of Species/Plot",
+       fill = "Island"
+  )
 ```
 
 

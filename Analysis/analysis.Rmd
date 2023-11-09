@@ -496,7 +496,7 @@ island_veg_all %>%
 ```
 -
 ```{r, not-working-yet-veg-types-by-island}
-island_veg_all %>%
+island_veg_all %>% 
   ggplot(mapping = aes(x = location, fill = type)) +
   geom_bar(position = "fill") +
   scale_fill_viridis_d() +
@@ -628,8 +628,18 @@ leaflet() %>%
 #also veg plots represented by dominant vegetation type in colors
 ```{r species richness representations}
 #ridge plot of # of species in each plot by island
-island_veg_all %>%
-  ggplot(x = gps) +
-  geom_histogram()
+iva <- island_veg_all %>%
+  group_by(gps) %>%
+  mutate(spp = replace_na(spp, "1")) %>%
+   mutate(numSp = n_distinct(spp)) %>%
+   mutate(NSp = if_else(spp != 1, numSp, 0)) %>%
+  select(-numSp) %>%
+  aggregate(NSp~gps+location, FUN = "mean")
+
+ggplot(iva, aes(NSp, location, fill = location)) +
+  geom_density_ridges(alpha = 0.5) +
+  xlim(0,15) +
+  scale_fill_viridis_d()
 ```
+
 

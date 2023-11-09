@@ -595,7 +595,7 @@ island_veg_all %>%
 ```
 -
 
-##Compare birds and vegetation
+#Compare birds and vegetation
 ```{r, change_coordinate_system_for_bird}
 #update bird data to the coordinate system used in leaflet
 island_bird <- st_transform(island_bird, "+init=epsg:4326")

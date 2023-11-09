@@ -498,7 +498,7 @@ island_veg_all %>%
   theme_minimal()
 ```
 -
-```{r not-working-yet-veg-types-by-island}
+```{r veg-types-by-island}
 island_veg_all %>% 
   ggplot(mapping = aes(x = location, fill = type)) +
   geom_bar(position = "fill") +

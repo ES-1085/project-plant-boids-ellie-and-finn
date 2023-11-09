@@ -332,15 +332,18 @@ naniar::gg_miss_var(island_veg_all)
 ```
 #create veg shape file from csv
 ```{r, create-veg-shape-file}
-#removing columns that are entirely na
-island_veg_no_na <- island_veg_all %>%
-  select(location, date, gps, cover, height, common, spp_code, spp, notes, POINT_X, POINT_Y, height_class, height_class_range, percent_cover_range, type)
-  
-#removing gdi, because it has no coordinates
-island_veg_no_na_2 <- filter(island_veg_no_na, location != "gdi")
+# #removing columns that are entirely na
+# island_veg_no_na <- island_veg_all %>%
+#   select(location, date, gps, cover, height, common, spp_code, spp, notes, POINT_X, POINT_Y, height_class, height_class_range, percent_cover_range, type)
+#   
+# #removing gdi, because it has no coordinates
+# island_veg_no_na_2 <- filter(island_veg_no_na, location != "gdi")
+# 
+# #creating a vegetation shape file
+# island_veg_shape <- st_as_sf(island_veg_no_na_2, coords = c(10:11))
 
-#creating a vegetation shape file
-island_veg_shape <- st_as_sf(island_veg_no_na_2, coords = c(10:11))
+island_veg_shape <- st_as_sf(island_veg_all, coords = c(13:14))
+
 ```
 <<<<<<< HEAD
 #create veg color palettes

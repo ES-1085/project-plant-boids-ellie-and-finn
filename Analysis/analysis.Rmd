@@ -52,7 +52,7 @@ shabby_bird <- st_read("../data/gull data/shabby_nests/gull_eider_nests.shp")
 -
 ###TIDYING
 
-##Tidy bird data
+#Tidy bird data
 ```{r create-location-colmn-birds}
 gdi_bird$location <- c("gdi")
 heron_bird$location <- c("heron")
@@ -109,7 +109,7 @@ island_bird <- island_bird %>%
 island_bird_dataframe <- as.data.frame(island_bird)
 visdat::vis_dat(island_bird_dataframe)
 ```
-#create bird color palette
+##create bird color palette
 ```{r assign-colors-to-bird-species}
  colors <- c("herring gull" = "#21918c", 
              "great black-backed gull" = "#440154", 
@@ -313,7 +313,7 @@ island_veg_all <- island_veg_all %>%
     TRUE ~ type
   ))
 ```
-#visualize the dataset
+##visualize the dataset
 ```{r find-unique-species-veg}
 unique <- unique(island_veg_all$spp)
 sort(unique)
@@ -330,7 +330,7 @@ visdat::vis_miss(island_veg_all)
 ```{r visualize-missing-variables-veg-data}
 naniar::gg_miss_var(island_veg_all)
 ```
-#create veg shape file from csv
+##create veg shape file from csv
 ```{r create-veg-shape-file}
 # #removing columns that are entirely na
 # island_veg_no_na <- island_veg_all %>%
@@ -346,7 +346,7 @@ island_veg_shape <- st_as_sf(island_veg_all, coords = c(13:14))
 
 ```
 <<<<<<< HEAD
-#create veg color palettes
+##create veg color palettes
 ```{r assign-colors-to-percent-cover}
 cover_color <- c("0-0.01" = "#dadaeb", 
                  "0.06-0.25" = "#bcbddc", 
@@ -380,7 +380,7 @@ height_color_leaf <- colorFactor(palette = c("#ffffb2", "#fecc5c", "#fd8d3c", "#
 
 ###VISUALIZING
 
-##Visualize bird data
+#Visualize bird data
 ```{r bird-species-bar-plot-by-island}
 #I'm trying to figure out how to display totals on the ends of the bars so you can see numbers that don't show up in the bars. 
 island_bird %>%
@@ -393,6 +393,8 @@ island_bird %>%
   labs(title = "Seabird disribution by island",
        x = "Number of occurences",
        y = "Bird species")
+
+ggsave("bird_species_by_island_number.jpg")
 ```
 -
 ```{r species-percentage-by-island}
@@ -405,8 +407,10 @@ island_bird %>%
        y = "Proportion of species",
        fill = "Bird species") +
   theme_minimal()
+
+ggsave("bird_species_proportion.jpg")
 ```
-#geom_sf maps of species on each island
+##geom_sf maps of species on each island
 ```{r ggplot-map-of-nests-on-gdi, fig.width=20, dev='jpeg'}
 island_bird %>%
 filter(location == "gdi") %>% #filter for one island for better vis
@@ -456,7 +460,7 @@ ggplot() +
 ```
 -
 
-##Visualize vegetation data
+#Visualize vegetation data
 ```{r species-barplot-by-island, fig.height=10, dev='jpeg'}
 island_veg_all %>%
   filter(spp != "unknown") %>% #filtering out all of the unknown species
@@ -470,6 +474,7 @@ island_veg_all %>%
        x = "Number of occurences",
        y = "Scientific names")
 
+ggsave("plant_species_by_island_number.jpg")
 
 # png("island_plot.png", width = 480, height = 480)
 # island_veg %>%
@@ -493,9 +498,25 @@ island_veg_all %>%
   scale_fill_viridis_d() +
   labs(title = "Height classes on each island",
        x = "Island",
-       y = "Proportion on height class",
+       y = "Proportion of height class",
        fill = "Plant height classes (m)") +
   theme_minimal()
+
+ggsave("plant_height_proportion.jpg")
+```
+-
+```{r hpercent-cover-distribution-by-island-bar-plot}
+island_veg_all %>%
+  ggplot(mapping = aes(x = location, fill = fct_rev(percent_cover_range))) + 
+  geom_bar(position = "fill") +
+  scale_fill_viridis_d() +
+  labs(title = "Percent cover on each island",
+       x = "Island",
+       y = "Proportion of percent cover",
+       fill = "Percent plant cover on plot") +
+  theme_minimal()
+
+ggsave("plant_cover_proportion.jpg")
 ```
 -
 ```{r not-working-yet-veg-types-by-island}
@@ -509,7 +530,7 @@ island_veg_all %>%
        fill = "Plant types") +
   theme_minimal()
 ```
-#geom_point maps of the percent cover on each island
+##geom_point maps of the percent cover on each island
 ```{r ggplot-geom_point-map-percent-cover-on-heron}
 island_veg_all %>%
   filter(location == "heron") %>%
@@ -551,7 +572,7 @@ island_veg_all %>%
        y = "Latitude",
        color = "Percent cover")
 ```
-#geom_point maps of the height classes on each island
+##geom_point maps of the height classes on each island
 ```{r ggplot-geom_point-map-height-on-heron}
 island_veg_all %>%
   filter(location == "heron") %>%

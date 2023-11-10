@@ -646,9 +646,7 @@ leaflet() %>%
                    radius = 2,
                    opacity = 1,
                    fillOpacity = 1)
-    
 ```
-
 #I would like to have a representation of bird densities and then veg plots colored by height
 #also veg plots represented by dominant vegetation type in colors
 ```{r species richness representations}

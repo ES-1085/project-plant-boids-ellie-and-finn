@@ -111,15 +111,15 @@ visdat::vis_dat(island_bird_dataframe)
 ```
 ##create bird color palette
 ```{r assign-colors-to-bird-species}
- colors <- c("herring gull" = "#21918c", 
-             "great black-backed gull" = "#440154", 
-             "common eider" = "#fde725", 
+ colors <- c("herring gull" = "#2B899E", 
+             "great black-backed gull" = "#3F2E71", 
+             "common eider" = "#81A356", 
              "canada goose" = "#5ec962", 
              "double-crested cormorant" = "#3b528b")
 ```
 -
 ```{r assign-colors-to-bird-species-for-leaflet}
- bird_color <- colorFactor(palette = c("#21918c", "#440154", "#fde725", "#5ec962", "#3b528b"),
+ bird_color <- colorFactor(palette = c("#2B899E", "#3F2E71", "#81A356", "#5ec962", "#3b528b"),
                       domain = c("herring gull", "great black-backed gull", "common eider", "canada goose", "double-crested cormorant"), 
                       ordered = TRUE)
 ```

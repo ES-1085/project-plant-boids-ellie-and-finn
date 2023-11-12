@@ -672,8 +672,9 @@ leaflet() %>%
     
 ```
 
-#I would like to have a representation of bird densities and then veg plots colored by height
-#also veg plots represented by dominant vegetation type in colors
+Next steps: - veg plots represented by dominant vegetation type in colors
+            - presence/absence of armature on veg
+            - GIS work --> classification wizard
 
 -
 ```{r working code leaflet - set shapes (do not use: ugly)}

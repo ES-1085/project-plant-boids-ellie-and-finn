@@ -549,7 +549,8 @@ ggplot(iva, aes(NSp, location, fill = fct_rev(location))) +
        y = "Island",
        x = "# of Species/Plot",
        fill = "Island"
-  )
+  ) +
+  theme_minimal()
 ```
 -
 ##geom_point maps of the percent cover on each island

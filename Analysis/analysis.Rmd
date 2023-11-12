@@ -527,6 +527,8 @@ island_veg_all %>%
        y = "Proportion on height class",
        fill = "Plant types") +
   theme_minimal()
+
+ggsave("plant_type_proportion.jpg")
 ```
 ##geom_point maps of the percent cover on each island
 ```{r ggplot-geom_point-map-percent-cover-on-heron}
@@ -616,7 +618,6 @@ island_veg_all %>%
 
 #Compare birds and vegetation
 
-##Compare birds and vegetation
 ```{r change_coordinate_system_for_bird}
 #update bird data to the coordinate system used in leaflet
 island_bird <- st_transform(island_bird, "+init=epsg:4326")

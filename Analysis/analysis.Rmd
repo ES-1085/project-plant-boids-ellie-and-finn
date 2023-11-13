@@ -111,15 +111,15 @@ visdat::vis_dat(island_bird_dataframe)
 ```
 ##create bird color palette
 ```{r assign-colors-to-bird-species}
- colors <- c("herring gull" = "#21918c", 
-             "great black-backed gull" = "#440154", 
-             "common eider" = "#fde725", 
+ colors <- c("herring gull" = "#2B899E", 
+             "great black-backed gull" = "#3F2E71", 
+             "common eider" = "#81A356", 
              "canada goose" = "#5ec962", 
              "double-crested cormorant" = "#3b528b")
 ```
 -
 ```{r assign-colors-to-bird-species-for-leaflet}
- bird_color <- colorFactor(palette = c("#21918c", "#440154", "#fde725", "#5ec962", "#3b528b"),
+ bird_color <- colorFactor(palette = c("#2B899E", "#3F2E71", "#81A356", "#5ec962", "#3b528b"),
                       domain = c("herring gull", "great black-backed gull", "common eider", "canada goose", "double-crested cormorant"), 
                       ordered = TRUE)
 ```
@@ -530,6 +530,29 @@ island_veg_all %>%
 
 ggsave("plant_type_proportion.jpg")
 ```
+-
+```{r species richness representation}
+#ridge plot of # of species in each plot by island
+iva <- island_veg_all %>%
+  group_by(gps) %>%
+  mutate(spp = replace_na(spp, "1")) %>%
+   mutate(numSp = n_distinct(spp)) %>%
+   mutate(NSp = if_else(spp != 1, numSp, 0)) %>%
+  select(-numSp) %>%
+  aggregate(NSp~gps+location, FUN = "mean")
+
+ggplot(iva, aes(NSp, location, fill = fct_rev(location))) +
+  geom_density_ridges(alpha = 0.5, bandwidth = .6) +
+  xlim(0,15) +
+  scale_fill_viridis_d() +
+  labs(title = "Species Richness per Plot, by Island",
+       y = "Island",
+       x = "# of Species/Plot",
+       fill = "Island"
+  ) +
+  theme_minimal()
+```
+-
 ##geom_point maps of the percent cover on each island
 ```{r ggplot-geom_point-map-percent-cover-on-heron}
 island_veg_all %>%
@@ -646,6 +669,7 @@ leaflet() %>%
                    radius = 2,
                    opacity = 1,
                    fillOpacity = 1)
+<<<<<<< HEAD
 ```
 #I would like to have a representation of bird densities and then veg plots colored by height
 #also veg plots represented by dominant vegetation type in colors
@@ -658,16 +682,56 @@ iva <- island_veg_all %>%
    mutate(NSp = if_else(spp != 1, numSp, 0)) %>%
   select(-numSp) %>%
   aggregate(NSp~gps+location, FUN = "mean")
+=======
 
-ggplot(iva, aes(NSp, location, fill = fct_rev(location))) +
-  geom_density_ridges(alpha = 0.5, bandwidth = .6) +
-  xlim(0,15) +
-  scale_fill_viridis_d() +
-  labs(title = "Species Richness per Plot, by Island",
-       y = "Island",
-       x = "# of Species/Plot",
-       fill = "Island"
-  )
+    
 ```
 
+Next steps: - veg plots represented by dominant vegetation type in colors
+            - presence/absence of armature on veg
+            - GIS work --> classification wizard
+>>>>>>> dc9585e7f9ddfe982e9684fa1e79a99c65bb6eaa
+
+-
+```{r working code leaflet - set shapes (do not use: ugly)}
+
+# add icon label column
+island_bird_1 <- island_bird %>%
+  mutate(icon = case_when(
+    species == "great black-backed gull" ~ "square",
+    species == "common eider" ~ "circle",
+    species == "herring gull" ~ "triangle"))
+
+# # Make a list of icons. We'll index into it based on name.
+# /!\ order of icons MUST BE THE SAME as the order of the factor "group_color"
+bird_icons <- iconList(
+  circle <- makeIcon(iconUrl = "https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45166/black-circle-emoji-clipart-md.png",
+                          iconWidth = 6, iconHeight = 6),
+  square <- makeIcon(iconUrl = "https://creazilla-store.fra1.digitaloceanspaces.com/emojis/45970/black-medium-small-square-emoji-clipart-md.png",
+                           iconWidth = 7, iconHeight = 7),
+  triangle <- makeIcon(iconUrl = "https://www.freeiconspng.com/uploads/triangle-png-28.png",
+                         iconWidth = 6, iconHeight = 6)
+  )
+leaflet() %>%
+  #basemap
+  addProviderTiles("CartoDB.Positron") %>%
+  #setView to show all islands
+  setView(lng = -68.25,
+          lat = 44.25,
+          zoom = 10) %>%
+      #add markers for veg colored by height class using the height_color_leaf palette
+  addCircleMarkers(data = island_veg_shape, 
+                   color = ~height_color_leaf(island_veg_shape$height_class_range), 
+                   fillColor = ~height_color_leaf(island_veg_shape$height_class_range),
+                   radius = 2,
+                   opacity = 1,
+                   fillOpacity = 1)   %>%
+  #add markers for the birds and color by species using bird_color palette
+  addMarkers(data = island_bird_1,
+             icon = ~ bird_icons
+                   ) 
+
+  
+  
+```
 

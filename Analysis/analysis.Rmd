@@ -125,7 +125,7 @@ visdat::vis_dat(island_bird_dataframe)
 ```
 -
 
-##Tidy vegetation data
+#Tidy vegetation data
 ```{r join veg & coordinates}
 island_veg_all <- island_veg %>%
                   left_join(veg_attributes, join_by("gps" == "name"))

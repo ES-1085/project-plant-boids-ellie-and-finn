@@ -105,7 +105,7 @@ island_bird <- island_bird %>%
   filter(species != "NA")
 ```
 -
-```{r visualize-missing-bird-data}
+```{r visualize-missing-bird-data, fig.alt = "Colored block showing missing values in the island_bird data where no values are missing"}
 island_bird_dataframe <- as.data.frame(island_bird)
 visdat::vis_dat(island_bird_dataframe)
 ```
@@ -319,17 +319,20 @@ unique <- unique(island_veg_all$spp)
 sort(unique)
 ```
 -
-```{r visualize-missing-veg-data}
+```{r visualize-missing-veg-data, fig.alt = "Colored block showing missing values in the island_veg_all data where there are missing plant ids and a few missing values for percent cover."}
+
 visdat::vis_dat(island_veg_all)
 ```
 -
-```{r visualize-percent-missing-veg-data}
+```{r visualize-percent-missing-veg-data, fig.alt = "Gray and black block showing the percentage of missing values in each column of the island_veg_all data where 15.3 percent of all of values are missing. Most of these are the OID and notes columns, and some are the species IDs and percent cover."}
+
 visdat::vis_miss(island_veg_all)
 ```
 -
-```{r visualize-missing-variables-veg-data}
+```{r visualize-missing-variables-veg-data, fig.alt = "Bar plot of missing values in the island_veg_all data where the OID columns have the most missing values followed by the notes and species ID."}
 naniar::gg_miss_var(island_veg_all)
 ```
+-
 ##create veg shape file from csv
 ```{r create-veg-shape-file}
 # #removing columns that are entirely na
@@ -345,7 +348,7 @@ naniar::gg_miss_var(island_veg_all)
 island_veg_shape <- st_as_sf(island_veg_all, coords = c(13:14))
 
 ```
-
+-
 ##create veg color palettes
 ```{r assign-colors-to-percent-cover}
 cover_color <- c("0-0.01" = "#dadaeb", 
@@ -379,8 +382,8 @@ height_color_leaf <- colorFactor(palette = c("#ffffb2", "#fecc5c", "#fd8d3c", "#
 ###VISUALIZING
 
 #Visualize bird data
-```{r bird-species-bar-plot-by-island}
-#I'm trying to figure out how to display totals on the ends of the bars so you can see numbers that don't show up in the bars. 
+```{r bird-species-bar-plot-by-island, fig.alt = "Bar plots of seabird species on Great Duck Island, Heron, Schoodic, and Shabby where herring gulls are the primary species on all four islands. Heron only has herring gulls, while the other islands also have common ediers and black-backed gulls."}
+ 
 island_bird %>%
   ggplot(mapping = aes(y = species),
   na.rm = TRUE) +
@@ -392,10 +395,11 @@ island_bird %>%
        x = "Number of occurences",
        y = "Bird species")
 
-ggsave("bird_species_by_island_number.jpg")
+#ggsave("bird_species_by_island_number.jpg")
 ```
 -
-```{r species-percentage-by-island}
+```{r species-percentage-by-island, fig.alt = "Bar plot of the proportion of each species on each island where herring gulls are the largest percentage of total birds on Great Duck Island, Heron, Schoodic, and Shabby. Shabby has the lostest proportion of herring gulls with just under 70 percent, and heron has the highest percentage at 100 percent."}
+
 island_bird %>%
   ggplot(mapping = aes(x = location, fill = (species))) + 
   geom_bar(position = "fill") +
@@ -406,10 +410,12 @@ island_bird %>%
        fill = "Bird species") +
   theme_minimal()
 
-ggsave("bird_species_proportion.jpg")
+#ggsave("bird_species_proportion.jpg")
 ```
+-
 ##geom_sf maps of species on each island
-```{r ggplot-map-of-nests-on-gdi, fig.width=20, dev='jpeg'}
+```{r ggplot-map-of-nests-on-gdi, fig.width=20, dev='jpeg', fig.alt = "Latitude and longitude map of seabird nests shown by species on Great Duck Island where most birds nest in two colonies on the northern and southern shores of the island."}
+
 island_bird %>%
 filter(location == "gdi") %>% #filter for one island for better vis
 ggplot() +
@@ -421,7 +427,8 @@ ggplot() +
        color = "Species")
 ```
 -
-```{r ggplot-map-of-nests-on-heron, fig.width=20, dev='jpeg'}
+```{r ggplot-map-of-nests-on-heron, fig.width=20, dev='jpeg', fig.alt = "Latitude and longitude map of seabird nests by species on Heron Island where herring gulls are concentrated on the south shore and spaced out to the north."}
+
 island_bird %>%
 filter(location == "heron") %>%
 ggplot() +
@@ -433,7 +440,8 @@ ggplot() +
        color = "Species")
 ```
 -
-```{r ggplot-map-of-nests-on-schoodic, fig.width=20, dev='jpeg'}
+```{r ggplot-map-of-nests-on-schoodic, fig.width=20, dev='jpeg', fig.alt = "Latitude and longitude map of seabird nests by species on Schoodic Island where most seabirds are nesting on the northern side of the Island, including some black-backed gulls and eiders."}
+
 island_bird %>%
 filter(location == "schoodic") %>%
 ggplot() +
@@ -445,7 +453,8 @@ ggplot() +
        color = "Species")
 ```
 -
-```{r ggplot-map-of-nests-on-shabby, fig.width=20, dev='jpeg'}
+```{r ggplot-map-of-nests-on-shabby, fig.width=20, dev='jpeg', fig.alt = "Latitude and longitude map of seabird nests by species on Shabby Island where nests are spread accross the Island with more eiders and black-backed gulls towards the center and herring gulls on the shores."}
+
 island_bird %>%
 filter(location == "shabby") %>%
 ggplot() +
@@ -459,7 +468,8 @@ ggplot() +
 -
 
 #Visualize vegetation data
-```{r species-barplot-by-island, fig.height=10, dev='jpeg'}
+```{r species-barplot-by-island, fig.height=10, dev='jpeg', fig.alt = "Bar plots of species quantities on Great Duck, Heron, Schoodic, and Shabby Islands where there is no obvious dominant species between the islands."}
+
 island_veg_all %>%
   filter(spp != "unknown") %>% #filtering out all of the unknown species
   ggplot(mapping = aes(y = spp)
@@ -472,24 +482,12 @@ island_veg_all %>%
        x = "Number of occurences",
        y = "Scientific names")
 
-ggsave("plant_species_by_island_number.jpg")
+#ggsave("plant_species_by_island_number.jpg")
 
-# png("island_plot.png", width = 480, height = 480)
-# island_veg %>%
-#   filter(common != "unknown") %>% #filtering out all of the unknown species
-#   ggplot(mapping = aes(y = common)
-#     ) +
-#   geom_bar(fill = "#21918c") +
-#   facet_wrap(~location, nrow = 1) +
-#   theme(axis.text.y = element_text(vjust = 10)) +
-#   theme_minimal() + 
-#   labs(title = "Species disribution by island",
-#        x = "Number of occurences",
-#        y = "Common names")
-# dev.off()
 ```
 -
-```{r height-class-distribution-by-island-bar-plot}
+```{r height-class-distribution-by-island-bar-plot, fig.alt = "Bar plot showing the proportion of each vegetation height class on each of the four study islands where Heron and Shabby have the shortest overall vegetation structure and Great Duck is the only island with a plot in the 1.5 meters and over height class."}
+
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(height_class_range))) + #reversing height class so the tallest appears on top
   geom_bar(position = "fill") +
@@ -500,10 +498,11 @@ island_veg_all %>%
        fill = "Plant height classes (m)") +
   theme_minimal()
 
-ggsave("plant_height_proportion.jpg")
+#ggsave("plant_height_proportion.jpg")
 ```
 -
-```{r hpercent-cover-distribution-by-island-bar-plot}
+```{r hpercent-cover-distribution-by-island-bar-plot, fig.alt = "Bar plot of percent vegetation cover on each plot for all four study islands where most islands are 75 percent or more in the highest percent cover range and Shabby is only about 50 percent in the highest range."}
+
 island_veg_all %>%
   ggplot(mapping = aes(x = location, fill = fct_rev(percent_cover_range))) + 
   geom_bar(position = "fill") +
@@ -514,10 +513,11 @@ island_veg_all %>%
        fill = "Percent plant cover on plot") +
   theme_minimal()
 
-ggsave("plant_cover_proportion.jpg")
+#ggsave("plant_cover_proportion.jpg")
 ```
 -
-```{r veg-types-by-island}
+```{r veg-types-by-island, fig.alt = "Bar plot of proportion of vegetation types on each of the four study islands where Heron, Schoodic, and Shabby have a high proportion of NAs and Great Duck and Schoodic are primarily graminoids (grass like plants)."}
+
 island_veg_all %>% 
   ggplot(mapping = aes(x = location, fill = type)) +
   geom_bar(position = "fill") +
@@ -528,10 +528,11 @@ island_veg_all %>%
        fill = "Plant types") +
   theme_minimal()
 
-ggsave("plant_type_proportion.jpg")
+#ggsave("plant_type_proportion.jpg")
 ```
 -
-```{r species richness representation}
+```{r species richness representation, fig.alt = "Ridge plot of the density species richness per plot where Great Duck and Heron have a biomodal distribution at 0 and 7.5-10, plots on Shabby had an average of 2.5 species per plot, and Schoodic have an average of 2.75 species per plot."}
+
 #ridge plot of # of species in each plot by island
 iva <- island_veg_all %>%
   group_by(gps) %>%
@@ -551,10 +552,13 @@ ggplot(iva, aes(NSp, location, fill = fct_rev(location))) +
        fill = "Island"
   ) +
   theme_minimal()
+
+#ggsave("richness_ridge_plot.jpg")
 ```
 -
 ##geom_point maps of the percent cover on each island
-```{r ggplot-geom_point-map-percent-cover-on-heron}
+```{r ggplot-geom_point-map-percent-cover-on-heron, fig.alt = "Latitude and longitude map of vegetation plots by percent cover on Heron Island where the lower percent cover plots appear to be closer the the shores."}
+
 island_veg_all %>%
   filter(location == "heron") %>%
   ggplot() +
@@ -568,7 +572,8 @@ island_veg_all %>%
        color = "Percent cover")
 ```
 -
-```{r ggplot-geom_point-map-percent-cover-on-schoodic}
+```{r ggplot-geom_point-map-percent-cover-on-schoodic, fig.alt = "Latitude and longitude map of vegetation maps by percent cover on Schoodic Island where most of the plots have a high percent cover."}
+
 island_veg_all %>%
   filter(location == "schoodic") %>%
   ggplot() +
@@ -582,7 +587,8 @@ island_veg_all %>%
        color = "Percent cover")
 ```
 -
-```{r ggplot-geom_point-map-percent-cover-on-shabby}
+```{r ggplot-geom_point-map-percent-cover-on-shabby, fig.alt = "Latitude and longitude map of vegetation plots by percent cover on Shabby Island where the percent cover makes no obvious pattern."}
+
 island_veg_all %>%
   filter(location == "shabby") %>%
   ggplot() +
@@ -595,8 +601,10 @@ island_veg_all %>%
        y = "Latitude",
        color = "Percent cover")
 ```
+-
 ##geom_point maps of the height classes on each island
-```{r ggplot-geom_point-map-height-on-heron}
+```{r ggplot-geom_point-map-height-on-heron, fig.alt = "Latitude and longitude map of vegetation plots by height class on Heron Island where there is no obvious pattern to the height classes."}
+
 island_veg_all %>%
   filter(location == "heron") %>%
   ggplot() +
@@ -610,7 +618,8 @@ island_veg_all %>%
        color = "Height class")
 ```
 -
-```{r ggplot-geom_point-map-height-on-schoodic}
+```{r ggplot-geom_point-map-height-on-schoodic, fig.alt = "Latitude and longitude map of vegetation plots by height class on Schoodic Island where there is no obvious pattern to the heigh classes."}
+
 island_veg_all %>%
   filter(location == "schoodic") %>%
   ggplot() +
@@ -624,7 +633,8 @@ island_veg_all %>%
        color = "Height class")
 ```
 -
-```{r ggplot-geom_point-map-height-on-shabby}
+```{r ggplot-geom_point-map-height-on-shabby, fig.alt = "Latitude and longitude map of vegetation plots by height class on Shabby Island where the height classes make no obvious pattern."}
+
 island_veg_all %>%
   filter(location == "shabby") %>%
   ggplot() +
@@ -638,7 +648,6 @@ island_veg_all %>%
        color = "Height class")
 ```
 -
-
 #Compare birds and vegetation
 
 ```{r change_coordinate_system_for_bird}
@@ -646,7 +655,8 @@ island_veg_all %>%
 island_bird <- st_transform(island_bird, "+init=epsg:4326")
 ```
 -
-```{r leaflet-map-of-height-and-bird-species}
+```{r leaflet-map-of-height-and-bird-species, fig.alt = "Interactive Leaflet map of seabird nests, by species, and vegetation plots, by height class, where nesting sites may be correlated with vegetation height."}
+
 leaflet() %>% 
   #basemap
   addProviderTiles("CartoDB.Positron") %>% 
@@ -669,20 +679,19 @@ leaflet() %>%
                    radius = 2,
                    opacity = 1,
                    fillOpacity = 1)
-<<<<<<< HEAD
 ```
 #I would like to have a representation of bird densities and then veg plots colored by height
 #also veg plots represented by dominant vegetation type in colors
 ```{r species richness representations}
-#ridge plot of # of species in each plot by island
-iva <- island_veg_all %>%
-  group_by(gps) %>%
-  mutate(spp = replace_na(spp, "1")) %>%
-   mutate(numSp = n_distinct(spp)) %>%
-   mutate(NSp = if_else(spp != 1, numSp, 0)) %>%
-  select(-numSp) %>%
-  aggregate(NSp~gps+location, FUN = "mean")
-=======
+# #ridge plot of # of species in each plot by island
+# iva <- island_veg_all %>%
+#   group_by(gps) %>%
+#   mutate(spp = replace_na(spp, "1")) %>%
+#    mutate(numSp = n_distinct(spp)) %>%
+#    mutate(NSp = if_else(spp != 1, numSp, 0)) %>%
+#   select(-numSp) %>%
+#   aggregate(NSp~gps+location, FUN = "mean")
+# =======
 
     
 ```

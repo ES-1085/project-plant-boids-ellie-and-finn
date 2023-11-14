@@ -668,17 +668,18 @@ leaflet() %>%
           zoom = 10) %>% 
   #add markers for the birds and color by species using bird_color palette
   addCircleMarkers(data = island_bird,
-                   color = "black",
-                   weight = 1, #~bird_color(island_bird$species),
+                   color = ~bird_color(island_bird$species),
+                   weight = 1,
                    fillColor = ~bird_color(island_bird$species),
                    radius = 3,
                    opacity = .5,
                    fillOpacity = 1) %>% 
   #add markers for veg colored by height class using the height_color_leaf palette
   addCircleMarkers(data = island_veg_shape, 
-                   color = ~height_color_leaf(island_veg_shape$height_class_range), 
+                   color = "black", 
+                   weight = 1, #~height_color_leaf(island_veg_shape$height_class_range), 
                    fillColor = ~height_color_leaf(island_veg_shape$height_class_range),
-                   radius = 2,
+                   radius = 3,
                    opacity = 1,
                    fillOpacity = 1)
 ```

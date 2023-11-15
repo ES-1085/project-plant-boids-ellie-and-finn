@@ -681,7 +681,10 @@ leaflet() %>%
                    fillColor = ~height_color_leaf(island_veg_shape$height_class_range),
                    radius = 3,
                    opacity = 1,
-                   fillOpacity = 1)
+                   fillOpacity = 1) %>%
+  addLegend(position = "bottomright",
+            colors = c("#88CCEE", "#332288", "#CC6677", "#117733", "#882255","#ffffb2", "#fecc5c", "#fd8d3c", "#f03b20", "#bd0026"),
+            labels = c("herring gull", "great black-backed gull", "common eider", "canada goose", "double-crested cormorant", "0-0.15", "0.15-0.30", "0.30-1", "1-1.5", "1.5+"))
 ```
 #I would like to have a representation of bird densities and then veg plots colored by height
 #also veg plots represented by dominant vegetation type in colors

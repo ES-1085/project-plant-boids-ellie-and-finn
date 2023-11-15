@@ -558,6 +558,20 @@ ggplot(iva, aes(NSp, location, fill = fct_rev(location))) +
 #ggsave("richness_ridge_plot.jpg")
 ```
 -
+```{r species richness box and whisker, fig.alt = "Box and whisker plot of species richness across the sampling of each island. Shows that Schoodic has one outlier with a species count above 10, and Heron and GDI have the same mean and maximum (mean = 5 species per plot, max = 10). Shabby has the lowest mean and smallest spread; GDI has the greatest spread.}
+ggplot(iva, aes(NSp, location, fill = fct_rev(location))) +
+  geom_boxplot(alpha = .6) +
+  xlim(0,15) +
+  scale_fill_viridis_d() +
+  labs(title = "Species Richness by Island",
+       y = "Island",
+       x = "# of Species/Plot",
+       fill = "Island"
+  ) +
+  theme_minimal()
+```
+
+-
 ##geom_point maps of the percent cover on each island
 ```{r ggplot-geom_point-map-percent-cover-on-heron, fig.alt = "Latitude and longitude map of vegetation plots by percent cover on Heron Island where the lower percent cover plots appear to be closer the the shores."}
 

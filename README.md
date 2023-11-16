@@ -4,6 +4,12 @@ by Team name
 
 ## Summary
 
+There are thousands of islands in the Gulf of Maine, many of which host seabird nesting colonies. This past summer, Finn pre-generated random fields plots on four islands---Great Duck, Schoodic, Shabby, and Heron. He selected points within the seabird colonies to collect data on the vegetation present. In this data we have observations of individuals plants, including data on species, height class and percent cover of plot, and vegetation type, along with date and gps location. We also aquired seabird nest location associated with species from John Anderson and Wriley Hodge. Many other students assisted them in collecting these data last spring and summer. 
+
+This project is exploring whether or not vegetation structure and seabird nesting distribution have a statistically relevant correlation. This dataset is meant to guide future research efforts in predicting colony structure change under climate change and sea-level rise. 
+
+To begin analysing the seabird data, we visualized the populations of different species on each of the islands. You can see in this visualization that GDI has the highest population of seabirds. Then we looked at the proportion of each species on the islands independently of overall population. You can see here that Heron island only has herring gulls. In reality, this island has other species, but the data we revieved was only labeled herrring gull, so we had to assume we didn't have the other points. We did get this other data from Wriley, but by then we didn't have time to integrate it into our data set. 
+
 Write-up of your project and findings go here. Think of this as the text
 of your presentation. The length should be roughly 5 minutes when read
 out loud. Although pacing varies, a 5-minute speech is roughly 750
@@ -24,7 +30,7 @@ your project.
 
 ## Presentation
 
-Our presentation can be found [here](presentation/presentation.html). You can update this link to a Google Slides link.
+Our presentation can be found [here](https://docs.google.com/presentation/d/1M6fcpR2NsUJx6NhD0wOSrRjE4pYKNQ9C6cAKCZGzSFg/edit?usp=sharing).
 
 ## Data
 

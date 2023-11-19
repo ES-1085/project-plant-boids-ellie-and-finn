@@ -47,9 +47,9 @@ Our presentation can be found [here](https://docs.google.com/presentation/d/1M6f
 
 ## Data
 
-O'Connor, F 2023, _Title_, College of the Atlantic.
+O'Connor, F 2023, _Eider and Gull Breeding Colony Vegetation in the Gulf of Maine_, College of the Atlantic.
 
-Hodge, W, Anderson, J 2023, _Title_, College of the Altlantic.
+Hodge, W, Anderson, J 2023, _Acadia National Park Colony Nesting Seabirds_, College of the Altlantic.
 
 Include a citation for your data here. See
 <http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840> for guidance
